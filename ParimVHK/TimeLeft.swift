@@ -114,8 +114,53 @@ struct TimeLeft: View {
     }
 }
 
+//let url = "https://api.agify.io/?name=meelad"
+//getData(from: url)
+
 struct TimeLeft_Previews: PreviewProvider {
     static var previews: some View {
         TimeLeft()
     }
 }
+
+private func getData(from url : String) {
+    let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {data, response, error in
+        guard let data = data, error == nil else {
+            print("Something went wrong")
+            return
+        }
+        var result: Response?
+        do {
+            result = try JSONDecoder().decode(Response.self, from: data)
+        }
+        catch {
+            print("Failed to convert \(error.localizedDescription)")
+        }
+        
+        guard let json = result else {
+            return
+        }
+        
+        print(json.results.name)
+        print(json.results.age)
+    })
+    task.resume()
+}
+
+struct Response : Codable {
+    let results: myResult
+}
+
+struct myResult: Codable {
+    let age: Int
+    let count: Int
+    let name: String
+}
+
+/*
+{
+    "age":33,
+    "count":21,
+    "name":"meelad"
+}
+*/

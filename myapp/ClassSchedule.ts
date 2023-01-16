@@ -7,24 +7,26 @@ export enum DayOfWeek {
 }
 
 export enum LessonType {
-    MATEMAATIKA = "matemaatike"
+    MATEMAATIKA = "matemaatika",
+    MUUSIKAAJALUGU = "muusikaajalugu"
 }
 
-export interface Day {
+export interface VhkDay {
     lessons: Lesson[];
+    lunch: Lunch;
 }
 
-export interface LessonTime {
-    hour: number;
+export interface VhkTime {
+    hour: number; //check if valid?
     min: number;
 }
 
 export enum RoomType {
     DEFAULT = "default",
-    GROUP = "group"
+    GROUP = "group" //create ENUM for groups
 }
 
-export type Room = RoomDefault | RoomGroup;
+export type Room = RoomDefault | RoomGroup; //create ENUM for rooms
 
 export interface RoomDefault {
     type: RoomType.DEFAULT;
@@ -38,14 +40,20 @@ export interface RoomGroup {
 
 export interface Lesson {
     name: LessonType;
-    start_time: LessonTime;
-    end_time: LessonTime;
+    start_time: VhkTime;
+    end_time: VhkTime;
     room: Room;
 }
 
-type ClassSchedule = {[k in DayOfWeek]: Day};
+export interface Lunch {
+    start_time: VhkTime;
+    end_time: VhkTime;
+    room: RoomDefault;
+}
 
-const ex: ClassSchedule = {
+export type ClassSchedule = {[k in DayOfWeek]: VhkDay};
+
+export const liveClassSchedule: ClassSchedule = {
     [DayOfWeek.MONDAY]: {
         lessons: [{
             name: LessonType.MATEMAATIKA,
@@ -60,11 +68,43 @@ const ex: ClassSchedule = {
             room: {
                 type: RoomType.GROUP,
                 places: {
-                    "G1": "A123"
+                    "G1": "V136",
+                    "G2": "AUD",
+                    "G3": "V201"
                 }
             }
+        },
+            {
+            name: LessonType.MUUSIKAAJALUGU,
+            start_time: {
+                hour: 10,
+                min: 45
+            },
+            end_time: {
+                hour: 12,
+                min: 0
+                },
+            room: {
+            type: RoomType.DEFAULT,
+                place: "AUD"
+            }
+
         }],
+        lunch: {
+            start_time: {
+                hour: 12,
+                min: 30
+            },
+            end_time: {
+                hour: 13,
+                min: 15
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
     }
 }
 
-console.log(JSON.stringify(ex));
+console.log(JSON.stringify(liveClassSchedule));
