@@ -1,45 +1,27 @@
-//  number
-//  string
-//  boolean
+// console.log("hello world");
+// var currentDate = new Date();
+// let lessonTimeStart = new Date();
+// let currentHours = currentDate.getHours();
+// var currentMinutes = currentDate.getMinutes();
+// var currentTime = currentHours + ":" + currentMinutes;
+// console.log(currentTime);
+//getDay = monday = 1, sunday = 0
 
-interface bar {
-    txt: string;
-    num: number;
-    abc?: any;
+// import data from './12R.json';
+// console.log(data);
+
+type kv = {[key in string]: string};
+type arr = string[];
+
+const k: kv = {
+    "monday": "1",
+    "tuesday": "2"
 }
 
-const foo: bar = {
-    txt: "my string",
-    num: 123,
-    abc: 1.1
-}
+const a: arr = [
+    "monday",
+    "tuesday"
+]
 
-const a: number = 2;
-foo.num = a;
-console.log(foo);
-
-// setTimeout(() => {
-//     console.log("End of timeout")
-// }, 3000);
-
-async function main(): Promise<void> {
-    var p = myDelay(1);
-    console.log(await p);
-    console.log("Hello world!");
-}
-
-// var p = myDelay(1);
-// console.log(await p);
-// console.log("Hello world!");
-
-async function myDelay(ti: number): Promise<string> {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve("End of timeout")
-        }, ti);
-    })
-}
-
-main().then(() => {}).catch(() => {
-    console.log("Error!!!!");
-});
+console.log(k["monday"]);
+console.log(k["tuesday"]);
