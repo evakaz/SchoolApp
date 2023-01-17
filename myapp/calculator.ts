@@ -1,8 +1,8 @@
-import {ClassSchedule, VhkDay, DayOfWeek, VhkTime, liveClassSchedule, Room} from "./ClassSchedule";
+import {ClassSchedule, VhkDay, DayOfWeek, VhkTime, TwelveRSchedule, Room, VhkGroup} from "./ClassSchedule";
 
 export class Calculator {
 
-    public getMainScreen(schedule: ClassSchedule, dayOfWeek: DayOfWeek, time: VhkTime, group: string | null): MainScreen {
+    public getMainScreen(schedule: ClassSchedule, dayOfWeek: DayOfWeek, time: VhkTime, group: VhkGroup ): MainScreen { //keyvalue
 
         if (time.hour < 0) {
             return {
@@ -17,34 +17,47 @@ export class Calculator {
             }
         }
 
-        const day: VhkDay = schedule[dayOfWeek];
-        if (!day) {
-            const result: MainScreenError = {
+        const daySchedule: VhkDay | undefined = schedule[dayOfWeek];
+        if (!daySchedule) {
+            return {
                 type: MainScreenType.ERROR,
                 error: { title: "Undefined schedule for day: " + dayOfWeek }
             }
-            return result;
         }
-        let currentDate = 0;
         var currentLesson = "";
-        /*var currentRoom: Room = {
-            TODO
-        };*/
-        let numOfLessons: number = liveClassSchedule.monday.lessons.length; //pass currentDay argument to determine {monday} etc
-        for (let i = 0; i > numOfLessons; i++) {
-            if (currentDate >= liveClassSchedule.monday.lessons[i].start_time.hour && currentDate >= liveClassSchedule.monday.lessons[i].start_time.min
-                && currentDate < liveClassSchedule.monday.lessons[i].end_time.hour && currentDate < liveClassSchedule.monday.lessons[i].end_time.min) {
-                currentLesson = liveClassSchedule.monday.lessons[i].name;
-                //currentRoom = liveClassSchedule.monday.lessons[i].room; //TODO
+        var timeLeftTilEnd: VhkTime = {
+                hour: 0,
+                min: 0
+            };
+        var nextLessonOrder: number = 0;
+        var numOfLessons: number = daySchedule.lessons.length; //pass currentDay argument to determine {monday} etc
+        for (let i = 0; i < numOfLessons; i++) {
+            if (time.hour >= daySchedule.lessons[i].start_time.hour //same here
+                && time.min >= daySchedule.lessons[i].start_time.min
+                && time.hour < daySchedule.lessons[i].end_time.hour
+                && time.min < daySchedule.lessons[i].end_time.min) {
+                currentLesson = daySchedule.lessons[i].name;
+                timeLeftTilEnd = {
+                    hour: daySchedule.lessons[i].end_time.hour - time.hour,
+                    min: daySchedule.lessons[i].end_time.hour - time.hour
+                };
+                nextLessonOrder = daySchedule.lessons[i].order + 1;
             }
         }
+        var nextLesson = daySchedule.lessons[nextLessonOrder];
+        var nextLessonTitle = nextLesson.name;
+        var timeUntilNextLesson : VhkTime = {
+            hour: nextLesson.start_time.hour - time.hour,
+            min: nextLesson.start_time.min - time.min
+        };
 
-        const result: MainScreenSuccess = {
+        return {
             type: MainScreenType.SUCCESS,
-            current_button: { title: "tttt" }
-        }
-
-        return result;
+            current_button: { title: "Current lesson: " + currentLesson, titleIfPressed: "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min}, //what if sunday??
+            lunch_button: {title: "Lunch in: ", titleIfPressed: ""},//TODO what if lunch was already???
+            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + timeUntilNextLesson.min,
+            titleIfPressed: "Room: " + nextLesson.room} //TODO based on group
+        };
     }
 }
 
@@ -68,7 +81,8 @@ export interface MainScreenSuccess {
 }
 
 export interface PrimaryButton {
-    title: string;
+    title: string,
+    titleIfPressed: string
 }
 
 export type MainScreen = MainScreenSuccess | MainScreenError;

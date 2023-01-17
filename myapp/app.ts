@@ -1,3 +1,6 @@
+import {DayOfWeek, TwelveRSchedule, VhkTime} from "./ClassSchedule";
+import {Calculator} from "./calculator";
+
 const express = require('express')
 const app = express()
 const port = 3000
@@ -12,8 +15,33 @@ const resp: VhkMainScreenResponse = {
     }]
 }
 
+function getDayOfWeek(dayOfWeek: number): DayOfWeek {
+    switch (dayOfWeek) {
+        case 1: return DayOfWeek.MONDAY;
+        case 2: return DayOfWeek.TUESDAY;
+        case 3: return DayOfWeek.WEDNESDAY;
+        case 4: return DayOfWeek.THURSDAY;
+        case 5: return DayOfWeek.FRIDAY;
+        case 6: return DayOfWeek.SATURDAY;
+        case 0: return DayOfWeek.SUNDAY;
+        default:
+            throw new Error("Invalid day of week")
+    }
+}
+
 app.post('/getMainScreen', (req: any, res: any) => {
     console.log(req);
+    const date = new Date();
+    const dayOfWeek = getDayOfWeek(date.getDay());
+    let group = 'G1';
+    var schedule = TwelveRSchedule;
+    let currentDate: VhkTime = {
+        hour: date.getHours(),
+        min: date.getMinutes()
+    };
+    let calc = new Calculator();
+    let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, group);
+
     res.json(resp);
 })
 

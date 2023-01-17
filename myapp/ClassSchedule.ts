@@ -1,11 +1,12 @@
 export enum DayOfWeek {
-    MONDAY = "monday"
-    // TUESDAY = "tuesday",
-    // WEDNESDAY = "wednesday",
-    // THURSDAY = "thursday",
-    // FRIDAY = "friday"
+    MONDAY = "monday",
+    TUESDAY = "tuesday",
+    WEDNESDAY = "wednesday",
+    THURSDAY = "thursday",
+    FRIDAY = "friday",
+    SATURDAY = "saturday",
+    SUNDAY = "sunday"
 }
-
 export enum LessonType {
     MATEMAATIKA = "matemaatika",
     MUUSIKAAJALUGU = "muusikaajalugu"
@@ -40,6 +41,7 @@ export interface RoomGroup {
 
 export interface Lesson {
     name: LessonType;
+    order: number, //TODO
     start_time: VhkTime;
     end_time: VhkTime;
     room: Room;
@@ -51,12 +53,15 @@ export interface Lunch {
     room: RoomDefault;
 }
 
-export type ClassSchedule = {[k in DayOfWeek]: VhkDay};
+export type ClassSchedule = {[k in DayOfWeek]?: VhkDay};
+export type VhkGroup = {[subject: string]: string}; // MATH : G1
+//TODO replace subject with enum
 
-export const liveClassSchedule: ClassSchedule = {
+export const TwelveRSchedule: ClassSchedule = {
     [DayOfWeek.MONDAY]: {
         lessons: [{
             name: LessonType.MATEMAATIKA,
+            order: 0,
             start_time: {
                 hour: 9,
                 min: 15
@@ -76,6 +81,7 @@ export const liveClassSchedule: ClassSchedule = {
         },
             {
             name: LessonType.MUUSIKAAJALUGU,
+            order: 1,
             start_time: {
                 hour: 10,
                 min: 45
@@ -107,4 +113,4 @@ export const liveClassSchedule: ClassSchedule = {
     }
 }
 
-console.log(JSON.stringify(liveClassSchedule));
+console.log(JSON.stringify(TwelveRSchedule));
