@@ -14,6 +14,7 @@
 		303B1F85296F158900537D4C /* ParimVHKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F84296F158900537D4C /* ParimVHKTests.swift */; };
 		303B1F8F296F158900537D4C /* ParimVHKUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F8E296F158900537D4C /* ParimVHKUITests.swift */; };
 		303B1F91296F158900537D4C /* ParimVHKUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F90296F158900537D4C /* ParimVHKUITestsLaunchTests.swift */; };
+		3049F15D2978397D00EA41DC /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049F15C2978397D00EA41DC /* StartScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		303B1F8A296F158900537D4C /* ParimVHKUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParimVHKUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B1F8E296F158900537D4C /* ParimVHKUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParimVHKUITests.swift; sourceTree = "<group>"; };
 		303B1F90296F158900537D4C /* ParimVHKUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParimVHKUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3049F15C2978397D00EA41DC /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				303B1F75296F158800537D4C /* TimeLeft.swift */,
 				303B1F77296F158900537D4C /* Assets.xcassets */,
 				303B1F79296F158900537D4C /* Preview Content */,
+				3049F15C2978397D00EA41DC /* StartScreen.swift */,
 			);
 			path = ParimVHK;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				303B1F76296F158800537D4C /* TimeLeft.swift in Sources */,
 				303B1F74296F158800537D4C /* ParimVHKApp.swift in Sources */,
+				3049F15D2978397D00EA41DC /* StartScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

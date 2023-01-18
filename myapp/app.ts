@@ -1,5 +1,5 @@
 import {DayOfWeek, TwelveRSchedule, VhkTime} from "./ClassSchedule";
-import {Calculator} from "./calculator";
+import {MainScreenCalculator} from "./mainScreenCalculator";
 
 const express = require('express')
 const app = express()
@@ -33,13 +33,13 @@ app.post('/getMainScreen', (req: any, res: any) => {
     console.log(req);
     const date = new Date();
     const dayOfWeek = getDayOfWeek(date.getDay());
-    let group = 'G1';
+    let group = {"matemaatika": "G1"};
     var schedule = TwelveRSchedule;
     let currentDate: VhkTime = {
         hour: date.getHours(),
         min: date.getMinutes()
     };
-    let calc = new Calculator();
+    let calc = new MainScreenCalculator();
     let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, group);
 
     res.json(resp);
