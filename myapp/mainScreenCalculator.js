@@ -1,37 +1,36 @@
-import {ClassSchedule, VhkDay, DayOfWeek, VhkTime, TwelveRSchedule, Room, VhkGroup} from "./ClassSchedule";
-
-export class MainScreenCalculator {
-
-    public getMainScreen(schedule: ClassSchedule, dayOfWeek: DayOfWeek, time: VhkTime, group: VhkGroup ): MainScreen { //keyvalue
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MainScreenType = exports.MainScreenCalculator = void 0;
+class MainScreenCalculator {
+    getMainScreen(schedule, dayOfWeek, time, group) {
         if (time.hour < 0) {
             return {
                 type: MainScreenType.ERROR,
                 error: { title: "Invalid argument: hour" }
-            }
+            };
         }
         if (time.min < 0) {
             return {
                 type: MainScreenType.ERROR,
                 error: { title: "Invalid argument: minutes" }
-            }
+            };
         }
-
-        const daySchedule: VhkDay | undefined = schedule[dayOfWeek];
-        if (!daySchedule) {
+        const daySchedule2 = schedule[dayOfWeek];
+        if (!daySchedule2) {
             return {
                 type: MainScreenType.ERROR,
                 error: { title: "Undefined schedule for day: " + dayOfWeek }
-            }
-        }
-        var currentLesson = "";
-        var timeLeftTilEnd: VhkTime = {
-                hour: 0,
-                min: 0
             };
-        var nextLessonOrder: number = 0;
-        var currentTimeInMin: number = 0;
-        var numOfLessons: number = daySchedule.lessons.length;
+        }
+        const daySchedule = Object.assign({}, daySchedule2);
+        var currentLesson = "";
+        var timeLeftTilEnd = {
+            hour: 0,
+            min: 0
+        };
+        var nextLessonOrder = 0;
+        var currentTimeInMin = 0;
+        var numOfLessons = daySchedule.lessons.length;
         for (let i = 0; i < numOfLessons; i++) {
             const lessonStart = daySchedule.lessons[i].start_time;
             const lessonEnd = daySchedule.lessons[i].end_time;
@@ -47,7 +46,11 @@ export class MainScreenCalculator {
         }
         const nextLesson = daySchedule.lessons[nextLessonOrder];
         const nextLessonTitle = nextLesson.name;
-        const timeUntilNextLesson: VhkTime = getTimeUntilSth(time, nextLesson.start_time);
+        var timeUntilNextLesson = {
+            hour: 0,
+            min: 0
+        };
+        timeUntilNextLesson = getTimeUntilSth(time, nextLesson.start_time);
         var nextLessonRoom = "";
         if ("place" in nextLesson.room) {
             nextLessonRoom = nextLesson.room.place;
@@ -56,18 +59,21 @@ export class MainScreenCalculator {
             nextLessonRoom = nextLesson.room.places[group[1]];
         }
         const lunch = daySchedule.lunch;
-        const lunchTimeIn: VhkTime = getTimeUntilSth(time, lunch.start_time);
-
+        var lunchTime = {
+            hour: 0,
+            min: 0
+        };
+        lunchTime = getTimeUntilSth(time, lunch.start_time);
         return {
             type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: " + currentLesson, titleIfPressed: "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min}, //what if sunday?? //how to print minutes if theyre smaller than 10
-            lunch_button: {title: "Lunch in: " + lunchTimeIn.hour + ":" + lunchTimeIn.min, titleIfPressed: "" + lunch.room},//TODO what if lunch was already???
-            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + timeUntilNextLesson.min,
-            titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
+            current_button: { title: "Current lesson: " + currentLesson, titleIfPressed: "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min },
+            lunch_button: { title: "Lunch in: ", titleIfPressed: "" },
+            next_button: { title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + timeUntilNextLesson.min,
+                titleIfPressed: "Room: " + nextLessonRoom } //TODO based on group
         };
     }
 }
-
+exports.MainScreenCalculator = MainScreenCalculator;
 //let endLessonInMin = lessonEnd.hour * 60 + lessonEnd.min;
 //                 currentTimeInMin = time.hour * 60 + time.min;
 //                 timeLeftTilEnd.min = endLessonInMin - currentTimeInMin;
@@ -79,7 +85,7 @@ export class MainScreenCalculator {
 //                     hour: timeLeftTilEnd.hour,
 //                     min: timeLeftTilEnd.min
 //                 };
-function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime) {
+function getTimeUntilSth(currentTime, timeUntilSth) {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
     result.hour = 0;
@@ -89,29 +95,9 @@ function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime) {
     }
     return result;
 }
-
-export enum MainScreenType {
-    SUCCESS = "success",
-    ERROR = "error"
-}
-
-export interface MainScreenError {
-    type: MainScreenType.ERROR;
-    error: {
-        title: string;
-    };
-}
-
-export interface MainScreenSuccess {
-    type: MainScreenType.SUCCESS;
-    current_button: PrimaryButton;
-    lunch_button?: PrimaryButton;
-    next_button?: PrimaryButton;
-}
-
-export interface PrimaryButton {
-    title: string,
-    titleIfPressed: string
-}
-
-export type MainScreen = MainScreenSuccess | MainScreenError;
+var MainScreenType;
+(function (MainScreenType) {
+    MainScreenType["SUCCESS"] = "success";
+    MainScreenType["ERROR"] = "error";
+})(MainScreenType = exports.MainScreenType || (exports.MainScreenType = {}));
+//# sourceMappingURL=mainScreenCalculator.js.map

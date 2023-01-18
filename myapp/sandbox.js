@@ -16,4 +16,5 @@ const a = [
     "tuesday"
 ];
 console.log(k["monday"]);
+console.log(k["tuesday"]);
 //# sourceMappingURL=sandbox.js.map
