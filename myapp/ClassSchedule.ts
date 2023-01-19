@@ -1,14 +1,5 @@
 import {LessonType} from "./LessonType";
-
-export enum DayOfWeek {
-    MONDAY = "monday",
-    TUESDAY = "tuesday",
-    WEDNESDAY = "wednesday",
-    THURSDAY = "thursday",
-    FRIDAY = "friday",
-    SATURDAY = "saturday",
-    SUNDAY = "sunday"
-}
+import {DayOfWeek} from "./DayOfWeek]";
 
 export interface VhkDay {
     lessons: Lesson[];

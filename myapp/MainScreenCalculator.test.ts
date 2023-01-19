@@ -1,5 +1,6 @@
 import {MainScreenCalculator, MainScreenType} from "./mainScreenCalculator";
-import {ClassSchedule, DayOfWeek, TwelveRSchedule} from "./ClassSchedule";
+import {ClassSchedule, TwelveRSchedule} from "./ClassSchedule";
+import {DayOfWeek} from "./DayOfWeek]";
 
 describe('Input validation', () => {
     test('test negative hour', () => {
@@ -44,6 +45,25 @@ describe('MainScreen', () => {
             next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
                 titleIfPressed: "Room: AUD"}})
     });
+    test('main screen school break', () => {
+        const calc = new MainScreenCalculator();
+        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 10, min: 29}, {"matemaatika": "G1"});
+        expect(r).toEqual({type: MainScreenType.SUCCESS,
+            current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:01"},
+            lunch_button: {title: "Lunch in: 01:46", titleIfPressed: "vene suur söögisaal"},
+            next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
+                titleIfPressed: "Room: AUD"}})
+    })
+    //TODO
+    test('main screen last lesson', () => {
+        const calc = new MainScreenCalculator();
+        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 12, min: 50}, {});
+        expect(r).toEqual({type: MainScreenType.SUCCESS,
+            current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:01"},
+            lunch_button: {title: "Lunch in: 01:46", titleIfPressed: "vene suur söögisaal"},
+            next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
+                titleIfPressed: "Room: AUD"}})
+    });
 });
 
 describe("Lunch Tests", () => {
@@ -51,7 +71,7 @@ describe("Lunch Tests", () => {
         const calc = new MainScreenCalculator();
         const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 12, min: 20}, {"matemaatika": "G1"});
         expect(r).toEqual({type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: ", titleIfPressed: "Time left:"},
+            current_button: { title: "Lunch. Hurry!", titleIfPressed: "vene suur söögisaal"},
             lunch_button: {title: "Lunch is now!!!", titleIfPressed: "vene suur söögisaal"},
             next_button: {title: "Next lesson: ajalugu. The lesson starts in: 0:25",
                 titleIfPressed: "Room: V213"}})

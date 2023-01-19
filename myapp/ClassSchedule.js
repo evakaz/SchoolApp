@@ -1,17 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TwelveRSchedule = exports.RoomType = exports.DayOfWeek = void 0;
+exports.TwelveRSchedule = exports.RoomType = void 0;
 const LessonType_1 = require("./LessonType");
-var DayOfWeek;
-(function (DayOfWeek) {
-    DayOfWeek["MONDAY"] = "monday";
-    DayOfWeek["TUESDAY"] = "tuesday";
-    DayOfWeek["WEDNESDAY"] = "wednesday";
-    DayOfWeek["THURSDAY"] = "thursday";
-    DayOfWeek["FRIDAY"] = "friday";
-    DayOfWeek["SATURDAY"] = "saturday";
-    DayOfWeek["SUNDAY"] = "sunday";
-})(DayOfWeek = exports.DayOfWeek || (exports.DayOfWeek = {}));
+const DayOfWeek_1 = require("./DayOfWeek]");
 var RoomType;
 (function (RoomType) {
     RoomType["DEFAULT"] = "default";
@@ -19,7 +10,7 @@ var RoomType;
 })(RoomType = exports.RoomType || (exports.RoomType = {}));
 //TODO replace subject with enum
 exports.TwelveRSchedule = {
-    [DayOfWeek.MONDAY]: {
+    [DayOfWeek_1.DayOfWeek.MONDAY]: {
         lessons: [{
                 name: LessonType_1.LessonType.MATEMAATIKA,
                 order: 0,
@@ -87,7 +78,7 @@ exports.TwelveRSchedule = {
             }
         }
     },
-    [DayOfWeek.TUESDAY]: {
+    [DayOfWeek_1.DayOfWeek.TUESDAY]: {
         lessons: [{
                 name: LessonType_1.LessonType.TARKVARA_ARENDUS,
                 order: 0,
