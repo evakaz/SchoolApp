@@ -1,3 +1,5 @@
+import {LessonType} from "./LessonType";
+
 export enum DayOfWeek {
     MONDAY = "monday",
     TUESDAY = "tuesday",
@@ -6,21 +8,6 @@ export enum DayOfWeek {
     FRIDAY = "friday",
     SATURDAY = "saturday",
     SUNDAY = "sunday"
-}
-export enum LessonType {
-    MATEMAATIKA = "matemaatika",
-    MUUSIKAAJALUGU = "muusikaajalugu",
-    AJALUGU = "ajalugu",
-    TARKVARA_ARENDUS = "tarkvara arendus",
-    EESTI_KEEL = "eesti keel",
-    ARDUINO = "arduino",
-    MATIK = "matik",
-    BIOLOOGIA = "bioloogia",
-    YHISKONNAOPETUS = "ühiskonnaõpetus",
-    KIRJANDUS = "kirjandus",
-    FYYSIKA = "füüsika",
-    FYYSIKA_YLESANDED = "füüsika ülesanded",
-    KUNSTIAJALUGU = "kunstiajalugu"
 }
 
 export interface VhkDay {
@@ -65,7 +52,7 @@ export interface Lunch {
 }
 
 export type ClassSchedule = {[k in DayOfWeek]?: VhkDay};
-export type VhkGroup = {[subject: string]: string}; // MATH : G1
+export type VhkGroup = {[subject: string]: string}; // MATH : G1 //add to interface!
 //TODO replace subject with enum
 
 export const TwelveRSchedule: ClassSchedule = {
@@ -106,22 +93,108 @@ export const TwelveRSchedule: ClassSchedule = {
                 place: "AUD"
             }
 
+        },
+        {
+            name: LessonType.AJALUGU,
+            order: 2,
+            start_time: {
+                hour: 12,
+                min: 45
+            },
+            end_time: {
+                hour: 14,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V213"
+            }
+
         }],
         lunch: {
             start_time: {
                 hour: 12,
-                min: 30
+                min: 15
             },
             end_time: {
-                hour: 13,
-                min: 15
+                hour: 12,
+                min: 30
             },
             room: {
                 type: RoomType.DEFAULT,
                 place: "vene suur söögisaal"
             }
         }
-    }
+    },
+    [DayOfWeek.TUESDAY]: {
+        lessons: [{
+            name: LessonType.TARKVARA_ARENDUS,
+            order: 0,
+            start_time: {
+                hour: 9,
+                min: 0
+            },
+            end_time: {
+                hour: 10,
+                min: 30
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V133"
+            }
+        },
+            {
+            name: LessonType.EESTI_KEEL,
+            order: 1,
+            start_time: {
+                hour: 10,
+                min: 45
+            },
+            end_time: {
+                hour: 12,
+                min: 15
+            },
+            room: {
+                type: RoomType.GROUP,
+                places: {
+                    "G1": "V214",
+                    "G2": "V302",
+                    "G3": "V133"
+                }
+            }
+        },
+            {
+            name: LessonType.AJALUGU,
+            order: 2,
+            start_time: {
+                hour: 12,
+                min: 45
+            },
+            end_time: {
+                hour: 14,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V213"
+            }
+
+        }],
+        lunch: {
+            start_time: {
+                hour: 12,
+                min: 15
+            },
+            end_time: {
+                hour: 12,
+                min: 30
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
+    },
 }
 
 console.log(JSON.stringify(TwelveRSchedule));

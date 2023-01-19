@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TwelveRSchedule = exports.RoomType = exports.LessonType = exports.DayOfWeek = void 0;
+exports.TwelveRSchedule = exports.RoomType = exports.DayOfWeek = void 0;
+const LessonType_1 = require("./LessonType");
 var DayOfWeek;
 (function (DayOfWeek) {
     DayOfWeek["MONDAY"] = "monday";
@@ -11,22 +12,6 @@ var DayOfWeek;
     DayOfWeek["SATURDAY"] = "saturday";
     DayOfWeek["SUNDAY"] = "sunday";
 })(DayOfWeek = exports.DayOfWeek || (exports.DayOfWeek = {}));
-var LessonType;
-(function (LessonType) {
-    LessonType["MATEMAATIKA"] = "matemaatika";
-    LessonType["MUUSIKAAJALUGU"] = "muusikaajalugu";
-    LessonType["AJALUGU"] = "ajalugu";
-    LessonType["TARKVARA_ARENDUS"] = "tarkvara arendus";
-    LessonType["EESTI_KEEL"] = "eesti keel";
-    LessonType["ARDUINO"] = "arduino";
-    LessonType["MATIK"] = "matik";
-    LessonType["BIOLOOGIA"] = "bioloogia";
-    LessonType["YHISKONNAOPETUS"] = "\u00FChiskonna\u00F5petus";
-    LessonType["KIRJANDUS"] = "kirjandus";
-    LessonType["FYYSIKA"] = "f\u00FC\u00FCsika";
-    LessonType["FYYSIKA_YLESANDED"] = "f\u00FC\u00FCsika \u00FClesanded";
-    LessonType["KUNSTIAJALUGU"] = "kunstiajalugu";
-})(LessonType = exports.LessonType || (exports.LessonType = {}));
 var RoomType;
 (function (RoomType) {
     RoomType["DEFAULT"] = "default";
@@ -36,7 +21,7 @@ var RoomType;
 exports.TwelveRSchedule = {
     [DayOfWeek.MONDAY]: {
         lessons: [{
-                name: LessonType.MATEMAATIKA,
+                name: LessonType_1.LessonType.MATEMAATIKA,
                 order: 0,
                 start_time: {
                     hour: 9,
@@ -56,7 +41,7 @@ exports.TwelveRSchedule = {
                 }
             },
             {
-                name: LessonType.MUUSIKAAJALUGU,
+                name: LessonType_1.LessonType.MUUSIKAAJALUGU,
                 order: 1,
                 start_time: {
                     hour: 10,
@@ -70,22 +55,106 @@ exports.TwelveRSchedule = {
                     type: RoomType.DEFAULT,
                     place: "AUD"
                 }
+            },
+            {
+                name: LessonType_1.LessonType.AJALUGU,
+                order: 2,
+                start_time: {
+                    hour: 12,
+                    min: 45
+                },
+                end_time: {
+                    hour: 14,
+                    min: 0
+                },
+                room: {
+                    type: RoomType.DEFAULT,
+                    place: "V213"
+                }
             }],
         lunch: {
             start_time: {
                 hour: 12,
-                min: 30
+                min: 15
             },
             end_time: {
-                hour: 13,
-                min: 15
+                hour: 12,
+                min: 30
             },
             room: {
                 type: RoomType.DEFAULT,
                 place: "vene suur söögisaal"
             }
         }
-    }
+    },
+    [DayOfWeek.TUESDAY]: {
+        lessons: [{
+                name: LessonType_1.LessonType.TARKVARA_ARENDUS,
+                order: 0,
+                start_time: {
+                    hour: 9,
+                    min: 0
+                },
+                end_time: {
+                    hour: 10,
+                    min: 30
+                },
+                room: {
+                    type: RoomType.DEFAULT,
+                    place: "V133"
+                }
+            },
+            {
+                name: LessonType_1.LessonType.EESTI_KEEL,
+                order: 1,
+                start_time: {
+                    hour: 10,
+                    min: 45
+                },
+                end_time: {
+                    hour: 12,
+                    min: 15
+                },
+                room: {
+                    type: RoomType.GROUP,
+                    places: {
+                        "G1": "V214",
+                        "G2": "V302",
+                        "G3": "V133"
+                    }
+                }
+            },
+            {
+                name: LessonType_1.LessonType.AJALUGU,
+                order: 2,
+                start_time: {
+                    hour: 12,
+                    min: 45
+                },
+                end_time: {
+                    hour: 14,
+                    min: 0
+                },
+                room: {
+                    type: RoomType.DEFAULT,
+                    place: "V213"
+                }
+            }],
+        lunch: {
+            start_time: {
+                hour: 12,
+                min: 15
+            },
+            end_time: {
+                hour: 12,
+                min: 30
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
+    },
 };
 console.log(JSON.stringify(exports.TwelveRSchedule));
 //# sourceMappingURL=ClassSchedule.js.map

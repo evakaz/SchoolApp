@@ -15,6 +15,7 @@
 		303B1F8F296F158900537D4C /* ParimVHKUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F8E296F158900537D4C /* ParimVHKUITests.swift */; };
 		303B1F91296F158900537D4C /* ParimVHKUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F90296F158900537D4C /* ParimVHKUITestsLaunchTests.swift */; };
 		3049F15D2978397D00EA41DC /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049F15C2978397D00EA41DC /* StartScreen.swift */; };
+		309BEF962979403F009F28D8 /* SelectGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309BEF952979403F009F28D8 /* SelectGrade.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		303B1F8E296F158900537D4C /* ParimVHKUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParimVHKUITests.swift; sourceTree = "<group>"; };
 		303B1F90296F158900537D4C /* ParimVHKUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParimVHKUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3049F15C2978397D00EA41DC /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
+		309BEF952979403F009F28D8 /* SelectGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGrade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				303B1F77296F158900537D4C /* Assets.xcassets */,
 				303B1F79296F158900537D4C /* Preview Content */,
 				3049F15C2978397D00EA41DC /* StartScreen.swift */,
+				309BEF952979403F009F28D8 /* SelectGrade.swift */,
 			);
 			path = ParimVHK;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				303B1F76296F158800537D4C /* TimeLeft.swift in Sources */,
 				303B1F74296F158800537D4C /* ParimVHKApp.swift in Sources */,
 				3049F15D2978397D00EA41DC /* StartScreen.swift in Sources */,
+				309BEF962979403F009F28D8 /* SelectGrade.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

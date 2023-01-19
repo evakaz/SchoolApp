@@ -10,7 +10,7 @@ import SwiftUI
 struct StartScreen: View {
     var body: some View {
         ZStack {
-            LinearGradient(colors: [.pink, .purple], startPoint: .bottomTrailing, endPoint: .topLeading)
+            LinearGradient(colors: [.gray, .white], startPoint: .bottomTrailing, endPoint: .topLeading)
                 .edgesIgnoringSafeArea(.all)
             VStack() {
                 HStack {
@@ -19,21 +19,22 @@ struct StartScreen: View {
                         .padding(45)
                         .font(.title)
                 }
-                    Spacer()
-                Button(action: {}) {
-                    //.buttonStyle(BorderedButtonStyle)
+                Spacer()
+                Button(action: {
+                    print("Hello World!")
+                }) {
                     Text("Start")
-                        //.frame(minWidth: 10, maxWidth: 90)
-                    
-                        .padding(15)
-                        .foregroundColor(.black)
-                        //.clipShape(Capsule())
-//                        .background(.white)
-                    
+                        .frame(width: 250, height: 150)
+                        .fontWeight(.bold)
+                        .font(.largeTitle)
+                        .padding()
+                        //.background(Color.purple)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.mint]), startPoint: .leading, endPoint: .trailing))
+                        .cornerRadius(40)
+                        .foregroundColor(.white)
+                        .padding(10)
                 }
-                .buttonStyle(.bordered)
-                .background(.white)
-                .padding(13)
+                Spacer()
                 
             }
         }

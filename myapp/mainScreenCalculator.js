@@ -15,14 +15,13 @@ class MainScreenCalculator {
                 error: { title: "Invalid argument: minutes" }
             };
         }
-        const daySchedule2 = schedule[dayOfWeek];
-        if (!daySchedule2) {
+        const daySchedule = schedule[dayOfWeek];
+        if (!daySchedule) {
             return {
                 type: MainScreenType.ERROR,
                 error: { title: "Undefined schedule for day: " + dayOfWeek }
             };
         }
-        const daySchedule = Object.assign({}, daySchedule2);
         var currentLesson = "";
         var timeLeftTilEnd = {
             hour: 0,
@@ -46,11 +45,7 @@ class MainScreenCalculator {
         }
         const nextLesson = daySchedule.lessons[nextLessonOrder];
         const nextLessonTitle = nextLesson.name;
-        var timeUntilNextLesson = {
-            hour: 0,
-            min: 0
-        };
-        timeUntilNextLesson = getTimeUntilSth(time, nextLesson.start_time);
+        const timeUntilNextLesson = getTimeUntilSth(time, nextLesson.start_time);
         var nextLessonRoom = "";
         if ("place" in nextLesson.room) {
             nextLessonRoom = nextLesson.room.place;
@@ -59,32 +54,40 @@ class MainScreenCalculator {
             nextLessonRoom = nextLesson.room.places[group[1]];
         }
         const lunch = daySchedule.lunch;
-        var lunchTime = {
-            hour: 0,
-            min: 0
-        };
-        lunchTime = getTimeUntilSth(time, lunch.start_time);
+        const lunchTimeIn = getTimeUntilSth(time, lunch.start_time);
+        var lunchResult;
+        var lunchRoom;
+        if (lunchTimeIn.min > 0 && lunchTimeIn.hour > 0) {
+            lunchResult = "Lunch in: " + lunchTimeIn.hour + ":" + lunchTimeIn.min;
+            if ("place" in lunch.room) {
+                lunchRoom = lunch.room.place;
+            }
+        }
+        else if (lunchTimeIn.hour == 0 && (lunchTimeIn.min < 0 && lunchTimeIn.min > -15)) {
+            lunchResult = "Lunch is now!!!";
+        }
+        else {
+            lunchResult = "Lunch is over.";
+        }
+        var resultCurrent;
+        var resultCurrentPressed;
+        if (currentLesson == null && timeUntilNextLesson.hour >= 24) {
+            resultCurrent = "Nothing is happening now or any time soon. Relax!";
+        } //if there is no lesson and it's not coming in then next 24 hours
+        else {
+            resultCurrent = "Current lesson: " + currentLesson;
+            resultCurrentPressed = "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min;
+        }
         return {
             type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: " + currentLesson, titleIfPressed: "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min },
-            lunch_button: { title: "Lunch in: ", titleIfPressed: "" },
+            current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed },
+            lunch_button: { title: "" + lunchResult, titleIfPressed: "" + lunchRoom },
             next_button: { title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + timeUntilNextLesson.min,
                 titleIfPressed: "Room: " + nextLessonRoom } //TODO based on group
         };
     }
 }
 exports.MainScreenCalculator = MainScreenCalculator;
-//let endLessonInMin = lessonEnd.hour * 60 + lessonEnd.min;
-//                 currentTimeInMin = time.hour * 60 + time.min;
-//                 timeLeftTilEnd.min = endLessonInMin - currentTimeInMin;
-//                 while (timeLeftTilEnd.min >= 60) {
-//                     timeLeftTilEnd.hour++;
-//                     timeLeftTilEnd.min -= 60;
-//                 }
-//                 timeLeftTilEnd = {
-//                     hour: timeLeftTilEnd.hour,
-//                     min: timeLeftTilEnd.min
-//                 };
 function getTimeUntilSth(currentTime, timeUntilSth) {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;

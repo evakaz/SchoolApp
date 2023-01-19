@@ -57,28 +57,44 @@ export class MainScreenCalculator {
         }
         const lunch = daySchedule.lunch;
         const lunchTimeIn: VhkTime = getTimeUntilSth(time, lunch.start_time);
+        var lunchResult;
+        var lunchRoom;
+        if (lunchTimeIn.min > 0 && lunchTimeIn.hour > 0)
+        {
+            lunchResult = "Lunch in: " + lunchTimeIn.hour + ":" + formateMin(lunchTimeIn.min);
+            if ("place" in lunch.room) {
+                lunchRoom = lunch.room.place;
+            }
+        }
+        else if (lunchTimeIn.hour == 0 && (lunchTimeIn.min < 0 && lunchTimeIn.min > -15))
+        {
+            lunchResult = "Lunch is now!!!";
+        }
+        else
+        {
+            lunchResult = "Lunch is over."
+        }
+
+        var resultCurrent;
+        var resultCurrentPressed;
+        if (currentLesson == null && timeUntilNextLesson.hour >= 24) {
+            resultCurrent = "Nothing is happening now or any time soon. Relax!";
+        } //if there is no lesson and it's not coming in then next 24 hours
+        else {
+            resultCurrent = "Current lesson: " + currentLesson;
+            resultCurrentPressed = "Time left: " + timeLeftTilEnd.hour + ":" + formateMin(timeLeftTilEnd.min);
+        }
 
         return {
             type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: " + currentLesson, titleIfPressed: "Time left: " + timeLeftTilEnd.hour + ":" + timeLeftTilEnd.min}, //what if sunday?? //how to print minutes if theyre smaller than 10
-            lunch_button: {title: "Lunch in: " + lunchTimeIn.hour + ":" + lunchTimeIn.min, titleIfPressed: "" + lunch.room},//TODO what if lunch was already???
-            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + timeUntilNextLesson.min,
+            current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed}, //what if sunday?? //how to print minutes if theyre smaller than 10
+            lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},//TODO what if lunch was already???
+            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + formateMin(timeUntilNextLesson.min),
             titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
         };
     }
 }
 
-//let endLessonInMin = lessonEnd.hour * 60 + lessonEnd.min;
-//                 currentTimeInMin = time.hour * 60 + time.min;
-//                 timeLeftTilEnd.min = endLessonInMin - currentTimeInMin;
-//                 while (timeLeftTilEnd.min >= 60) {
-//                     timeLeftTilEnd.hour++;
-//                     timeLeftTilEnd.min -= 60;
-//                 }
-//                 timeLeftTilEnd = {
-//                     hour: timeLeftTilEnd.hour,
-//                     min: timeLeftTilEnd.min
-//                 };
 function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime) {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
@@ -88,6 +104,17 @@ function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime) {
         result.min -= 60;
     }
     return result;
+}
+
+function formateMin(min: number) {
+    if (min >= 10) {
+        return min;
+    }
+    //var minFormatted = min.toString();
+    if (min <= 9 && min > 0) {
+        const minFormatted: String = "0" + min
+        return minFormatted;
+    }
 }
 
 export enum MainScreenType {
@@ -106,7 +133,7 @@ export interface MainScreenSuccess {
     type: MainScreenType.SUCCESS;
     current_button: PrimaryButton;
     lunch_button?: PrimaryButton;
-    next_button?: PrimaryButton;
+    next_button: PrimaryButton;
 }
 
 export interface PrimaryButton {
