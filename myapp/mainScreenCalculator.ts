@@ -61,7 +61,7 @@ export class MainScreenCalculator {
         var lunchRoom;
         if (lunchTimeIn.min > 0 && lunchTimeIn.hour > 0)
         {
-            lunchResult = "Lunch in: " + lunchTimeIn.hour + ":" + formateMin(lunchTimeIn.min);
+            lunchResult = "Lunch in: " + formateTime(lunchTimeIn.hour) + ":" + formateTime(lunchTimeIn.min);
             if ("place" in lunch.room) {
                 lunchRoom = lunch.room.place;
             }
@@ -82,14 +82,14 @@ export class MainScreenCalculator {
         } //if there is no lesson and it's not coming in then next 24 hours
         else {
             resultCurrent = "Current lesson: " + currentLesson;
-            resultCurrentPressed = "Time left: " + timeLeftTilEnd.hour + ":" + formateMin(timeLeftTilEnd.min);
+            resultCurrentPressed = "Time left: " + formateTime(timeLeftTilEnd.hour) + ":" + formateTime(timeLeftTilEnd.min);
         }
 
         return {
             type: MainScreenType.SUCCESS,
             current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed}, //what if sunday?? //how to print minutes if theyre smaller than 10
             lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},//TODO what if lunch was already???
-            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + timeUntilNextLesson.hour + ":" + formateMin(timeUntilNextLesson.min),
+            next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formateTime(timeUntilNextLesson.hour) + ":" + formateTime(timeUntilNextLesson.min),
             titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
         };
     }
@@ -106,14 +106,14 @@ function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime) {
     return result;
 }
 
-function formateMin(min: number) {
-    if (min >= 10) {
-        return min;
+function formateTime(time: number) {
+    if (time >= 10) {
+        return time;
     }
     //var minFormatted = min.toString();
-    if (min <= 9 && min > 0) {
-        const minFormatted: String = "0" + min
-        return minFormatted;
+    if (time <= 9 && time >= 0) {
+        var timeFormatted: String = "0" + time
+        return timeFormatted;
     }
 }
 
