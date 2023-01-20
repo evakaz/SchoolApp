@@ -30,7 +30,6 @@ app.post('/getMainScreen', (req: any, res: any) => {
         min: 10
     };
 
-
     let calc = new MainScreenCalculator();
     let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, request.group);
 

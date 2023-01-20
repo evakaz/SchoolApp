@@ -1,5 +1,5 @@
 import {MainScreenCalculator, MainScreenType} from "./mainScreenCalculator";
-import {ClassSchedule, TwelveRSchedule} from "./ClassSchedule";
+import {TwelveRSchedule} from "./ClassSchedule";
 import {DayOfWeek} from "./DayOfWeek]";
 
 describe('Input validation', () => {
@@ -9,11 +9,17 @@ describe('Input validation', () => {
         expect(r).toEqual({type: MainScreenType.ERROR, error: {title: "Invalid argument: hour"}})
     });
 
-    test('test positive hour', () => {
+    test('test negative min', () => {
         const calc = new MainScreenCalculator();
-        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 1, min: 0}, {});
-        expect(r).toEqual({type: MainScreenType.ERROR, error: {title: "Invalid argument: hour"}})
+        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 12, min: -2}, {});
+        expect(r).toEqual({type: MainScreenType.ERROR, error: {title: "Invalid argument: minutes"}})
     });
+    test('schedule not found', () => {
+        const calc = new MainScreenCalculator();
+        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.SUNDAY, {hour: 12, min: 12}, {});
+        expect(r).toEqual({type: MainScreenType.ERROR, error: {title: "Undefined schedule for day: sunday"}})
+    })
+
 
 });
 
@@ -45,24 +51,34 @@ describe('MainScreen', () => {
             next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
                 titleIfPressed: "Room: AUD"}})
     });
-    test('main screen school break', () => {
-        const calc = new MainScreenCalculator();
-        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 10, min: 29}, {"matemaatika": "G1"});
-        expect(r).toEqual({type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:01"},
-            lunch_button: {title: "Lunch in: 01:46", titleIfPressed: "vene suur söögisaal"},
-            next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
-                titleIfPressed: "Room: AUD"}})
-    })
+    //TODO
+    // test('main screen school break', () => {
+    //     const calc = new MainScreenCalculator();
+    //     const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 10, min: 29}, {"matemaatika": "G1"});
+    //     expect(r).toEqual({type: MainScreenType.SUCCESS,
+    //         current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:01"},
+    //         lunch_button: {title: "Lunch in: 01:46", titleIfPressed: "vene suur söögisaal"},
+    //         next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
+    //             titleIfPressed: "Room: AUD"}})
+    // })
     //TODO
     test('main screen last lesson', () => {
         const calc = new MainScreenCalculator();
         const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 12, min: 50}, {});
         expect(r).toEqual({type: MainScreenType.SUCCESS,
-            current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:01"},
-            lunch_button: {title: "Lunch in: 01:46", titleIfPressed: "vene suur söögisaal"},
-            next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:16",
-                titleIfPressed: "Room: AUD"}})
+            current_button: { title: "Current lesson: ajalugu", titleIfPressed: "Time left: 01:10"},
+            lunch_button: {title: "Lunch is over.", titleIfPressed: "\U0001F37D"},
+            next_button: {title: "Next lesson: tarkvara arendus. The lesson starts in: 20:10",
+                titleIfPressed: "Room: V133"}})
+    });
+    test('main screen recess', () => {
+        const calc = new MainScreenCalculator();
+        const r = calc.getMainScreen(TwelveRSchedule, DayOfWeek.MONDAY, {hour: 12, min: 40}, {});
+        expect(r).toEqual({type: MainScreenType.SUCCESS,
+            current_button: { title: "Recess! The next lesson is starting soon.", titleIfPressed: "\U0001F972"},
+            lunch_button: {title: "Lunch is over.", titleIfPressed: "\U0001F37D"},
+            next_button: {title: "Next lesson: tarkvara arendus. The lesson starts in: 20:10",
+                titleIfPressed: "Room: V133"}})
     });
 });
 

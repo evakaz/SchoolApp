@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		303B1F74296F158800537D4C /* ParimVHKApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F73296F158800537D4C /* ParimVHKApp.swift */; };
-		303B1F76296F158800537D4C /* TimeLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F75296F158800537D4C /* TimeLeft.swift */; };
+		303B1F76296F158800537D4C /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F75296F158800537D4C /* MainScreen.swift */; };
 		303B1F78296F158900537D4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 303B1F77296F158900537D4C /* Assets.xcassets */; };
 		303B1F7B296F158900537D4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 303B1F7A296F158900537D4C /* Preview Assets.xcassets */; };
 		303B1F85296F158900537D4C /* ParimVHKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303B1F84296F158900537D4C /* ParimVHKTests.swift */; };
@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		303B1F70296F158800537D4C /* ParimVHK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParimVHK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B1F73296F158800537D4C /* ParimVHKApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParimVHKApp.swift; sourceTree = "<group>"; };
-		303B1F75296F158800537D4C /* TimeLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeft.swift; sourceTree = "<group>"; };
+		303B1F75296F158800537D4C /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		303B1F77296F158900537D4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		303B1F7A296F158900537D4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		303B1F80296F158900537D4C /* ParimVHKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParimVHKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				303B1F73296F158800537D4C /* ParimVHKApp.swift */,
-				303B1F75296F158800537D4C /* TimeLeft.swift */,
+				303B1F75296F158800537D4C /* MainScreen.swift */,
 				303B1F77296F158900537D4C /* Assets.xcassets */,
 				303B1F79296F158900537D4C /* Preview Content */,
 				3049F15C2978397D00EA41DC /* StartScreen.swift */,
@@ -263,7 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B1F76296F158800537D4C /* TimeLeft.swift in Sources */,
+				303B1F76296F158800537D4C /* MainScreen.swift in Sources */,
 				303B1F74296F158800537D4C /* ParimVHKApp.swift in Sources */,
 				3049F15D2978397D00EA41DC /* StartScreen.swift in Sources */,
 				309BEF962979403F009F28D8 /* SelectGrade.swift in Sources */,
