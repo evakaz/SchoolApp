@@ -88,7 +88,7 @@ export class MainScreenCalculator {
             nextLessonRoom = nextLesson.room.places[group[1]];
         }
         const lunch = daySchedule.lunch;
-        const lunchTimeIn: VhkTime = getTimeUntilSth(time, lunch.start_time);
+        const lunchTimeIn: VhkTime = getTimeUntilSth(time, lunch.start_time, true);
         var lunchResult;
         var lunchRoom;
         if (lunchTimeIn.min > 0 && lunchTimeIn.hour > 0)
@@ -138,9 +138,12 @@ export class MainScreenCalculator {
 
 
 //TODO
-function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime): VhkTime { //what if lesson starts next day??
+function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime, isLunch?: boolean): VhkTime { //what if lesson starts next day??
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
+    if (result.min < 0 && !isLunch) { //and not lunch!!
+        result.min = (24 * 60 - (currentTime.hour * 60 + currentTime.min)) + timeUntilSth.hour*60 + timeUntilSth.min;
+    }
     result.hour = 0;
     while (result.min >= 60) {
         result.hour++;
