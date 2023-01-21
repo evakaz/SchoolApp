@@ -77,8 +77,8 @@ describe('MainScreen', () => {
         expect(r).toEqual({type: MainScreenType.SUCCESS,
             current_button: { title: "Recess! The next lesson is starting soon.", titleIfPressed: "\U0001F972"},
             lunch_button: {title: "Lunch is over.", titleIfPressed: "\U0001F37D"},
-            next_button: {title: "Next lesson: tarkvara arendus. The lesson starts in: 20:10",
-                titleIfPressed: "Room: V133"}})
+            next_button: {title: "Next lesson: ajalugu. The lesson starts in: 00:05",
+                titleIfPressed: "Room: V213"}})
     });
 });
 
@@ -89,7 +89,7 @@ describe("Lunch Tests", () => {
         expect(r).toEqual({type: MainScreenType.SUCCESS,
             current_button: { title: "Lunch. Hurry!", titleIfPressed: "vene suur söögisaal"},
             lunch_button: {title: "Lunch is now!!!", titleIfPressed: "vene suur söögisaal"},
-            next_button: {title: "Next lesson: ajalugu. The lesson starts in: 0:25",
+            next_button: {title: "Next lesson: ajalugu. The lesson starts in: 00:25",
                 titleIfPressed: "Room: V213"}})
     })
 })

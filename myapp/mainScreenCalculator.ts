@@ -49,9 +49,21 @@ export class MainScreenCalculator {
         }
         var resultCurrent;
         var resultCurrentPressed;
-        if (currentLesson == null && (time.hour < daySchedule.lessons[numOfLessons-1].end_time.hour)) {
+        var isRecess: boolean = false;
+        if ((currentLesson == null || currentLesson == "") && (time.hour < daySchedule.lessons[numOfLessons-1].end_time.hour)) {
             resultCurrent = "Recess! The next lesson is starting soon.";
-            resultCurrentPressed = "\U0001F972";
+            resultCurrentPressed = "\U0001F972"; //TODO: find next lesson
+            var minNextLessonOrder = daySchedule.lessons.length;
+            for (let i = 0; i < numOfLessons; i++)
+            {
+                const lessonStart = daySchedule.lessons[i].start_time;
+                if (((time.hour < lessonStart.hour) || (time.hour == lessonStart.hour && time.min < lessonStart.min)) &&
+                    (daySchedule.lessons[i].order < minNextLessonOrder)) {
+                    minNextLessonOrder = daySchedule.lessons[i].order;
+                }
+            }
+            nextLessonOrder = minNextLessonOrder;
+            isRecess = true;
         }
         //check if the nextlesson doesnt exist by checking if current lesson is the last element in the array
         if (daySchedule.lessons[numOfLessons-1].name == currentLesson)
@@ -113,7 +125,7 @@ export class MainScreenCalculator {
             resultCurrent = "Nothing is happening now or any time soon. Relax!";
             resultCurrentPressed = "Chill out \U0001F60A";
         } //if there is no lesson and it's not coming in then next 24 hours
-        else if (currentLesson == null && lunchResult == "Lunch is now!!!") {
+        else if (/*currentLesson == null &&*/ lunchResult == "Lunch is now!!!" && isRecess) {
             resultCurrent = "Lunch. Hurry!"
             resultCurrentPressed = lunchRoom;
         }
@@ -121,9 +133,12 @@ export class MainScreenCalculator {
             resultCurrent = "No lesson now";
             resultCurrentPressed = ""; //TODO
         }
-        else {
+        else if (!isRecess) {
             resultCurrent = "Current lesson: " + currentLesson;
             resultCurrentPressed = "Time left: " + formatNumberAsTwoDigit(timeLeftTilEnd.hour) + ":" + formatNumberAsTwoDigit(timeLeftTilEnd.min);
+        }
+        else {
+            console.log("Huh?")
         }
 
         return {
@@ -138,10 +153,10 @@ export class MainScreenCalculator {
 
 
 //TODO
-function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime, isLunch?: boolean): VhkTime { //what if lesson starts next day??
+function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime, isLunch?: boolean): VhkTime {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
-    if (result.min < 0 && !isLunch) { //and not lunch!!
+    if (result.min < 0 && !isLunch) {
         result.min = (24 * 60 - (currentTime.hour * 60 + currentTime.min)) + timeUntilSth.hour*60 + timeUntilSth.min;
     }
     result.hour = 0;

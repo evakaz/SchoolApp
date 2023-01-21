@@ -125,51 +125,32 @@ private func getData() {
     let url = URL(string: "http://localhost:3000/getMainScreen")
     guard url != nil else {
         print("Error. URL was not found.")
-        throw new Error
+        exit(1)
         //exit(1)
     }
     
     var request = URLRequest(url: url!)
-    l
-    
+    let header = ["content-type": "application/json"]
+    request.allHTTPHeaderFields = header
+    let jsonObject =
+        "grade": "12R",
+        "group": [{
+            "matemaatika": "G1",
+            "eesti keel": "G2"]
+        }}
+      
+    do {
+        let requestBody = try JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed)
+    }
+    catch {
+        print("Error creating the data object from JSON")
+    }
 }
-//    let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {data, response, error in
-//        guard let data = data, error == nil else {
-//            print("Something went wrong")
-//            return
-//        }
-//        var result: Response?
-//        do {
-//            result = try JSONDecoder().decode(Response.self, from: data)
-//        }
-//        catch {
-//            print("Failed to convert \(error.localizedDescription)")
-//        }
-//
-//        guard let json = result else {
-//            return
-//        }
-//
-//        print(json.results.name)
-//        print(json.results.age)
-//    })
-//    task.resume()
-//}
-//
-//struct Response : Codable {
-//    let results: myResult
-//}
-//
-//struct myResult: Codable {
-//    let age: Int
-//    let count: Int
-//    let name: String
-//}
 
-/*
-{
-    "age":33,
-    "count":21,
-    "name":"meelad"
-}
-*/
+//{
+//    "grade": "12R",
+//    "group": {
+//        "matemaatika": "G1",
+//        "eesti keel": "G2"
+//    }
+//}
