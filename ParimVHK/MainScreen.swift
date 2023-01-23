@@ -37,111 +37,107 @@ struct MainScreen: View {
             LinearGradient(colors: [.pink, .orange], //if all lessons are finished or a weekend than fun color
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
+            //            VStack {
+            //                List(results) { result in
+            //                    /*@START_MENU_TOKEN@*/Text(result.type)/*@END_MENU_TOKEN@*/
+            //                }
+            //            }.onAppear(perform: loadData)
             VStack {
-                List(results) { result in
-                    /*@START_MENU_TOKEN@*/Text(result.type)/*@END_MENU_TOKEN@*/
-                }
-                
-//                List(result) { result in
-//                    Text("\(result.current_button)")
-//                }
-            }.onAppear(perform: loadData)
-
-            VStack {
-                ProgressView(value: 2, total: 5) //value and total depends on the amount of lessons and lessons done
-                    .padding()
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Lessons done")
-                            .font(.system(size: 20))
-                        Label("3", systemImage: "house.fill") //instead of actual amount "300"
+                VStack {
+                    ProgressView(value: 2, total: 5) //value and total depends on the amount of lessons and lessons done
+                        .padding()
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Lessons done")
+                                .font(.system(size: 20))
+                            Label("3", systemImage: "house.fill") //instead of actual amount "300"
+                        }
+                        .padding()
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text("Lessons left")
+                                .font(.system(size: 20))
+                            Label("2", systemImage: "flag.checkered.2.crossed")
+                        }
+                        .padding()
                     }
-                    .padding()
                     Spacer()
-                    VStack(alignment: .trailing) {
-                        Text("Lessons left")
-                            .font(.system(size: 20))
-                        Label("2", systemImage: "flag.checkered.2.crossed")
+                    
+                    HStack {
+                        VStack(alignment: .center) {
+                            Button(action: {
+                                print("VENE SUUR SÖÖGISAAL")
+                            }) {
+                                HStack{
+                                    Image(systemName: "brain.head.profile")
+                                        .font(.largeTitle)
+                                    Text("Currently: {MATH}")
+                                        .font(.subheadline  )
+                                }
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(LinearGradient(colors: [.indigo, .accentColor],
+                                                           startPoint: .bottomTrailing, endPoint: .leading))
+                                .cornerRadius(10)
+                                .shadow(color: .gray, radius: 5.0)
+                                .padding()
+                            }
+                            VStack() {
+                                Text("Ends in {0} hours {20} minutes {4} seconds")
+                                
+                            }                    }
                     }
-                    .padding()
-                }
-                Spacer()
-
-                HStack {
-                    VStack(alignment: .center) {
-                        Button(action: {
-                            print("VENE SUUR SÖÖGISAAL")
-                        }) {
-                            HStack{
-                                Image(systemName: "brain.head.profile")
-                                    .font(.largeTitle)
-                                Text("Currently: {MATH}")
-                                    .font(.subheadline  )
+                    HStack {
+                        VStack(alignment: .center) {
+                            Button(action: {
+                                print("VENE SUUR SÖÖGISAAL")
+                            }) {
+                                HStack{
+                                    Image(systemName: "books.vertical.fill")
+                                        .font(.largeTitle)
+                                    Text("Next lesson is {English}")
+                                        .font(.subheadline  )
+                                }
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(LinearGradient(colors: [.indigo, .accentColor],
+                                                           startPoint: .bottomTrailing, endPoint: .leading))
+                                .cornerRadius(10)
+                                .shadow(color: .gray, radius: 5.0)
+                                .padding()
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(LinearGradient(colors: [.indigo, .accentColor],
-                                                       startPoint: .bottomTrailing, endPoint: .leading))
-                            .cornerRadius(10)
-                            .shadow(color: .gray, radius: 5.0)
-                            .padding()
-                        }
-                    VStack() {
-                        Text("Ends in {0} hours {20} minutes {4} seconds")
-                            
-                    }                    }
-                }
-                HStack {
-                    VStack(alignment: .center) {
-                        Button(action: {
-                            print("VENE SUUR SÖÖGISAAL")
-                        }) {
-                            HStack{
-                                Image(systemName: "books.vertical.fill")
-                                    .font(.largeTitle)
-                                Text("Next lesson is {English}")
-                                    .font(.subheadline  )
-                            }
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(LinearGradient(colors: [.indigo, .accentColor],
-                                                       startPoint: .bottomTrailing, endPoint: .leading))
-                            .cornerRadius(10)
-                            .shadow(color: .gray, radius: 5.0)
-                            .padding()
-                        }
-                        Text("The lesson starts at {14:50}")
-                    }
-                }
-                HStack {
-                    VStack(alignment: .center) {
-                        Button(action: {
-                            print("VENE SUUR SÖÖGISAAL")
-                        }) {
-                            HStack{
-                                Image(systemName: "fork.knife.circle.fill")
-                                    .font(.largeTitle)
-                                Text("Lunch is in 1 hour 15 minutes 30 seconds")
-                                    .font(.subheadline  )
-                            }
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(LinearGradient(colors: [.indigo, .accentColor],
-                                                       startPoint: .bottomTrailing, endPoint: .leading))
-                            .cornerRadius(10)
-                            .shadow(color: .gray, radius: 5.0)
-                            .padding()
+                            Text("The lesson starts at {14:50}")
                         }
                     }
+                    HStack {
+                        VStack(alignment: .center) {
+                            Button(action: {
+                                print("VENE SUUR SÖÖGISAAL")
+                            }) {
+                                HStack{
+                                    Image(systemName: "fork.knife.circle.fill")
+                                        .font(.largeTitle)
+                                    Text("Lunch is in 1 hour 15 minutes 30 seconds")
+                                        .font(.subheadline  )
+                                }
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(LinearGradient(colors: [.indigo, .accentColor],
+                                                           startPoint: .bottomTrailing, endPoint: .leading))
+                                .cornerRadius(10)
+                                .shadow(color: .gray, radius: 5.0)
+                                .padding()
+                            }
+                        }
+                    }
+                    Spacer()
+                    
                 }
-                Spacer()
-    
             }
-        }
-        
+        }.onAppear(perform: loadData)
     }
 }
 
