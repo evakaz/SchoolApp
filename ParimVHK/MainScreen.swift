@@ -17,8 +17,13 @@ struct MainScreen: View {
             print("Invalid URL")
             return
         }
-        let request = URLRequest(url: url)
-        
+        let json: [String: Any] = ["grade": "12R",
+                                   "group": ["matemaatika": "G1",
+                                             "eesti keel": "G2"]]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
                 if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
