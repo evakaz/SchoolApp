@@ -155,7 +155,7 @@ export const TwelveRSchedule: ClassSchedule = {
             }
         },
             {
-            name: LessonType.AJALUGU,
+            name: LessonType.ARDUINO,
             order: 2,
             start_time: {
                 hour: 12,
@@ -167,7 +167,232 @@ export const TwelveRSchedule: ClassSchedule = {
             },
             room: {
                 type: RoomType.DEFAULT,
-                place: "V213"
+                place: "V216"
+            }
+
+        }],
+        lunch: {
+            start_time: {
+                hour: 12,
+                min: 15
+            },
+            end_time: {
+                hour: 12,
+                min: 30
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
+    },
+    [DayOfWeek.WEDNESDAY]: {
+        lessons: [{
+            name: LessonType.MATIK,
+            order: 0,
+            start_time: {
+                hour: 8,
+                min: 45
+            },
+            end_time: {
+                hour: 10,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "Kelder"
+            }
+        },
+        {
+            name: LessonType.BIOLOOGIA,
+            order: 1,
+            start_time: {
+                hour: 10,
+                min: 15
+            },
+            end_time: {
+                hour: 11,
+                min: 30
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V212"
+            }
+
+        },
+        {
+            name: LessonType.MATEMAATIKA,
+            order: 2,
+            start_time: {
+                hour: 11,
+                min: 45
+            },
+            end_time: {
+                hour: 13,
+                min: 0
+            },
+            room: {
+                type: RoomType.GROUP,
+                places: {
+                    "G1": "V136",
+                    "G2": "V212",
+                    "G3": "V201"
+                }
+            }
+        },
+        {
+            name: LessonType.YHISKONNAOPETUS,
+            order: 3,
+            start_time: {
+                hour: 13,
+                min: 15
+            },
+            end_time: {
+                hour: 14,
+                min: 15
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V212"
+            }
+        }],
+        lunch: {
+            start_time: {
+                hour: 11,
+                min: 30
+            },
+            end_time: {
+                hour: 11,
+                min: 45
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
+    },
+    [DayOfWeek.THURSDAY]: {
+        lessons: [{
+            name: LessonType.KIRJANDUS,
+            order: 0,
+            start_time: {
+                hour: 9,
+                min: 0
+            },
+            end_time: {
+                hour: 10,
+                min: 30
+            },
+            room: {
+                type: RoomType.GROUP,
+                places: {
+                    "G1": "V136",
+                    "G2": "V213"
+                }
+            }
+        },
+        {
+            name: LessonType.AJALUGU,
+            order: 1,
+            start_time: {
+                hour: 10,
+                min: 45
+            },
+            end_time: {
+                hour: 11,
+                min: 45
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V136"
+            }
+
+        },
+        {
+            name: LessonType.FYYSIKA,
+            order: 2,
+            start_time: {
+                hour: 12,
+                min: 15
+            },
+            end_time: {
+                hour: 13,
+                min: 15
+            },
+            room: {
+                type: RoomType.GROUP,
+                places: {
+                    "G1": "V216",
+                    "G2": "V201"
+                }
+            }
+        },
+        {
+            name: LessonType.MATEMAATIKA,
+            order: 3,
+            start_time: {
+                hour: 13,
+                min: 30
+            },
+            end_time: {
+                hour: 14,
+                min: 30
+            },
+            room: {
+                type: RoomType.GROUP,
+                places: {
+                    "G1": "V136",
+                    "G2": "V212",
+                    "G3": "V208"
+                }
+            }
+        }],
+        lunch: {
+            start_time: {
+                hour: 11,
+                min: 45
+            },
+            end_time: {
+                hour: 12,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "vene suur söögisaal"
+            }
+        }
+    },
+    [DayOfWeek.FRIDAY]: {
+        lessons: [{
+            name: LessonType.FYYSIKA_YLESANDED,
+            order: 0,
+            start_time: {
+                hour: 10,
+                min: 30
+            },
+            end_time: {
+                hour: 12,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V136"
+            }
+        },
+        {
+            name: LessonType.KUNSTIAJALUGU,
+            order: 1,
+            start_time: {
+                hour: 12,
+                min: 30
+            },
+            end_time: {
+                hour: 13,
+                min: 45
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: "V212"
             }
 
         }],

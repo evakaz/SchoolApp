@@ -8,14 +8,45 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var isWeekday = false
+    //@State private var isWeekday = false
+    @State var results = [MainScreenStruct]()
+    
+    func loadData() {
+        guard let url = URL(string: "http://localhost:3000/getMainScreen")
+        else {
+            print("Invalid URL")
+            return
+        }
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
+                    DispatchQueue.main.async {
+                        self.results = response
+                    }
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     var body: some View {
         //var totalAmountOfLessons : Int = 3
         ZStack{
             LinearGradient(colors: [.pink, .orange], //if all lessons are finished or a weekend than fun color
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
-            
+            VStack {
+                List(results) { result in
+                    /*@START_MENU_TOKEN@*/Text(result.type)/*@END_MENU_TOKEN@*/
+                }
+                
+//                List(result) { result in
+//                    Text("\(result.current_button)")
+//                }
+            }.onAppear(perform: loadData)
+
             VStack {
                 ProgressView(value: 2, total: 5) //value and total depends on the amount of lessons and lessons done
                     .padding()
@@ -120,37 +151,3 @@ struct TimeLeft_Previews: PreviewProvider {
         MainScreen()
     }
 }
-
-private func getData() {
-    let url = URL(string: "http://localhost:3000/getMainScreen")
-    guard url != nil else {
-        print("Error. URL was not found.")
-        exit(1)
-        //exit(1)
-    }
-    
-    var request = URLRequest(url: url!)
-    let header = ["content-type": "application/json"]
-    request.allHTTPHeaderFields = header
-    let jsonObject =
-        "grade": "12R",
-        "group": [{
-            "matemaatika": "G1",
-            "eesti keel": "G2"]
-        }}
-      
-    do {
-        let requestBody = try JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed)
-    }
-    catch {
-        print("Error creating the data object from JSON")
-    }
-}
-
-//{
-//    "grade": "12R",
-//    "group": {
-//        "matemaatika": "G1",
-//        "eesti keel": "G2"
-//    }
-//}

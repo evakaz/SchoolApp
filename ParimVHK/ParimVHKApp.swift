@@ -13,5 +13,7 @@ struct ParimVHKApp: App {
         WindowGroup {
             MainScreen()
         }
+        //getData()
     }
 }
+

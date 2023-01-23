@@ -30,7 +30,6 @@ class MainScreenCalculator {
             min: 0
         };
         var nextLessonOrder = 0;
-        var currentTimeInMin = 0; //TODO: what if the next lesson is starting next day
         var numOfLessons = daySchedule.lessons.length;
         for (let i = 0; i < numOfLessons; i++) {
             const lessonStart = daySchedule.lessons[i].start_time;
@@ -45,9 +44,26 @@ class MainScreenCalculator {
                 break;
             }
         }
+        var resultCurrent;
+        var resultCurrentPressed;
+        var isRecess = false;
+        if ((currentLesson == null || currentLesson == "") && (time.hour < daySchedule.lessons[numOfLessons - 1].end_time.hour)) {
+            resultCurrent = "Recess! The next lesson is starting soon.";
+            resultCurrentPressed = "\U0001F972"; //TODO: find next lesson
+            var minNextLessonOrder = daySchedule.lessons.length;
+            for (let i = 0; i < numOfLessons; i++) {
+                const lessonStart = daySchedule.lessons[i].start_time;
+                if (((time.hour < lessonStart.hour) || (time.hour == lessonStart.hour && time.min < lessonStart.min)) &&
+                    (daySchedule.lessons[i].order < minNextLessonOrder)) {
+                    minNextLessonOrder = daySchedule.lessons[i].order;
+                }
+            }
+            nextLessonOrder = minNextLessonOrder;
+            isRecess = true;
+        }
         //check if the nextlesson doesnt exist by checking if current lesson is the last element in the array
         if (daySchedule.lessons[numOfLessons - 1].name == currentLesson) {
-            var dayScheduleNext = schedule[(0, DayOfWeek_1.getNextDayOfWeek)(dayOfWeek)];
+            var dayScheduleNext = schedule[(0, DayOfWeek_1.getNextDayOfWeek)(dayOfWeek)]; //gets the first lesson of next day
             if (dayScheduleNext != undefined) {
                 daySchedule = dayScheduleNext;
                 nextLessonOrder = 0;
@@ -66,17 +82,7 @@ class MainScreenCalculator {
                 }
             }
         }
-        // var nextDayOfWeek = getNextDayOfWeek(dayOfWeek);
-        // while (daySchedule.lessons.length <= 0) {
-        //     const dayScheduleNext = schedule[nextDayOfWeek];
-        //     nextDayOfWeek = getNextDayOfWeek(dayOfWeek);
-        //     if (dayScheduleNext) {
-        //         daySchedule = dayScheduleNext;
-        //         break;
-        //     }
-        //     nextLessonOrder = 0;
-        // }
-        const nextLesson = daySchedule.lessons[nextLessonOrder]; //TODO: what current lesson is last lesson?? //no lessons in array with that index
+        const nextLesson = daySchedule.lessons[nextLessonOrder];
         const nextLessonTitle = nextLesson.name;
         const timeUntilNextLesson = getTimeUntilSth(time, nextLesson.start_time);
         var nextLessonRoom = "";
@@ -87,28 +93,28 @@ class MainScreenCalculator {
             nextLessonRoom = nextLesson.room.places[group[1]];
         }
         const lunch = daySchedule.lunch;
-        const lunchTimeIn = getTimeUntilSth(time, lunch.start_time);
+        const lunchTimeIn = getTimeUntilSth(time, lunch.start_time, true);
         var lunchResult;
         var lunchRoom;
         if (lunchTimeIn.min > 0 && lunchTimeIn.hour > 0) {
-            lunchResult = "Lunch in: " + formateTime(lunchTimeIn.hour) + ":" + formateTime(lunchTimeIn.min);
+            lunchResult = "Lunch in: " + formatNumberAsTwoDigit(lunchTimeIn.hour) + ":" + formatNumberAsTwoDigit(lunchTimeIn.min);
             if ("place" in lunch.room) {
                 lunchRoom = lunch.room.place;
             }
         }
         else if (lunchTimeIn.hour == 0 && (lunchTimeIn.min < 0 && lunchTimeIn.min > -15)) {
             lunchResult = "Lunch is now!!!";
+            lunchRoom = lunch.room.place;
         }
         else {
             lunchResult = "Lunch is over.";
+            lunchRoom = "\U0001F37D";
         }
-        var resultCurrent;
-        var resultCurrentPressed;
-        if (currentLesson == null && timeUntilNextLesson.hour >= 3) {
+        if (currentLesson == null && timeUntilNextLesson.hour >= 24) {
             resultCurrent = "Nothing is happening now or any time soon. Relax!";
             resultCurrentPressed = "Chill out \U0001F60A";
-        } //if there is no lesson and it's not coming in then next 24 hours
-        else if (currentLesson == null && lunchResult == "Lunch is now!!!") {
+        }
+        else if (lunchResult == "Lunch is now!!!" && isRecess) {
             resultCurrent = "Lunch. Hurry!";
             resultCurrentPressed = lunchRoom;
         }
@@ -116,23 +122,30 @@ class MainScreenCalculator {
             resultCurrent = "No lesson now";
             resultCurrentPressed = ""; //TODO
         }
-        else {
+        else if (!isRecess) {
             resultCurrent = "Current lesson: " + currentLesson;
-            resultCurrentPressed = "Time left: " + formateTime(timeLeftTilEnd.hour) + ":" + formateTime(timeLeftTilEnd.min);
+            resultCurrentPressed = "Time left: " + formatNumberAsTwoDigit(timeLeftTilEnd.hour) + ":" + formatNumberAsTwoDigit(timeLeftTilEnd.min);
+        }
+        else {
+            console.log("Huh?");
         }
         return {
             type: MainScreenType.SUCCESS,
             current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed },
             lunch_button: { title: "" + lunchResult, titleIfPressed: "" + lunchRoom },
-            next_button: { title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formateTime(timeUntilNextLesson.hour) + ":" + formateTime(timeUntilNextLesson.min),
+            next_button: { title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formatNumberAsTwoDigit(timeUntilNextLesson.hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),
                 titleIfPressed: "Room: " + nextLessonRoom } //TODO based on group
         };
     }
 }
 exports.MainScreenCalculator = MainScreenCalculator;
-function getTimeUntilSth(currentTime, timeUntilSth) {
+//TODO
+function getTimeUntilSth(currentTime, timeUntilSth, isLunch) {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
+    if (result.min < 0 && !isLunch) {
+        result.min = (24 * 60 - (currentTime.hour * 60 + currentTime.min)) + timeUntilSth.hour * 60 + timeUntilSth.min;
+    }
     result.hour = 0;
     while (result.min >= 60) {
         result.hour++;
@@ -140,15 +153,8 @@ function getTimeUntilSth(currentTime, timeUntilSth) {
     }
     return result;
 }
-function formateTime(time) {
-    if (time >= 10) {
-        return time;
-    }
-    //var minFormatted = min.toString();
-    if (time <= 9 && time >= 0) {
-        var timeFormatted = "0" + time;
-        return timeFormatted;
-    }
+function formatNumberAsTwoDigit(num) {
+    return (num >= 10) ? String(num) : "0" + num;
 }
 var MainScreenType;
 (function (MainScreenType) {

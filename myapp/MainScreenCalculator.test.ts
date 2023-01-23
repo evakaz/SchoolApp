@@ -80,6 +80,14 @@ describe('MainScreen', () => {
             next_button: {title: "Next lesson: ajalugu. The lesson starts in: 00:05",
                 titleIfPressed: "Room: V213"}})
     });
+    test("main screen weekend", () => {
+        const c = new MainScreenCalculator();
+        const r = c.getMainScreen(TwelveRSchedule, DayOfWeek.SATURDAY, {hour: 9, min: 0}, {});
+        expect(r).toEqual({type: MainScreenType.SUCCESS,
+        current_button: {title: "Nothing is happening now or any time soon. Relax!", titleIfPressed: "Chill out \U0001F60A"},
+        next_button: {title: "Next lesson: matemaatika. The lesson starts in: ", titleIfPresssed: ""}
+        })
+    })
 });
 
 describe("Lunch Tests", () => {
@@ -91,5 +99,5 @@ describe("Lunch Tests", () => {
             lunch_button: {title: "Lunch is now!!!", titleIfPressed: "vene suur söögisaal"},
             next_button: {title: "Next lesson: ajalugu. The lesson starts in: 00:25",
                 titleIfPressed: "Room: V213"}})
-    })
-})
+    });
+});

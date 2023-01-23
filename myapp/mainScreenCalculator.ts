@@ -1,4 +1,4 @@
-import {ClassSchedule, VhkDay, VhkTime, TwelveRSchedule, Room, VhkGroup} from "./ClassSchedule";
+import {ClassSchedule, VhkDay, VhkGroup, VhkTime} from "./ClassSchedule";
 import {DayOfWeek, getNextDayOfWeek} from "./DayOfWeek]";
 
 export class MainScreenCalculator {
@@ -16,12 +16,30 @@ export class MainScreenCalculator {
                 error: { title: "Invalid argument: minutes" }
             }
         }
-
+        var resultCurrent;
+        var resultCurrentPressed;
+        var isWeekend: boolean = false;
         const dayScheduleFromInput = schedule[dayOfWeek];
         if (!dayScheduleFromInput) { //if saturday and sunday???
-            return {
-                type: MainScreenType.ERROR,
-                error: { title: "Undefined schedule for day: " + dayOfWeek }
+            if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+                isWeekend = true;
+                var next;
+                if (schedule[DayOfWeek.MONDAY].lessons[0]) {
+                    
+                }
+                return {
+                    type: MainScreenType.SUCCESS,
+                    current_button: { title: "Nothing is happening now or any time soon. Relax!", titleIfPressed: "Chill out \U0001F60A"},
+                    lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},
+                    next_button: {title: "Next lesson: " + next?.name + ". The lesson starts in: " + formatNumberAsTwoDigit(getTimeUntilSth(time, next?.start_time, false).hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),
+                        titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
+                };
+            }
+            else {
+                return {
+                    type: MainScreenType.ERROR,
+                    error: {title: "Undefined schedule for day: " + dayOfWeek}
+                }
             }
         }
         var daySchedule: VhkDay = dayScheduleFromInput;
@@ -32,7 +50,6 @@ export class MainScreenCalculator {
                 min: 0
             };
         var nextLessonOrder: number = 0;
-        var currentTimeInMin: number = 0; //TODO: what if the next lesson is starting next day
         var numOfLessons: number = daySchedule.lessons.length;
         for (let i = 0; i < numOfLessons; i++) {
             const lessonStart = daySchedule.lessons[i].start_time;
@@ -47,12 +64,10 @@ export class MainScreenCalculator {
                 break;
             }
         }
-        var resultCurrent;
-        var resultCurrentPressed;
         var isRecess: boolean = false;
         if ((currentLesson == null || currentLesson == "") && (time.hour < daySchedule.lessons[numOfLessons-1].end_time.hour)) {
             resultCurrent = "Recess! The next lesson is starting soon.";
-            resultCurrentPressed = "\U0001F972"; //TODO: find next lesson
+            resultCurrentPressed = "\U0001F972";
             var minNextLessonOrder = daySchedule.lessons.length;
             for (let i = 0; i < numOfLessons; i++)
             {
@@ -77,7 +92,6 @@ export class MainScreenCalculator {
                 throw new Error("Undefinied: " + dayScheduleNext);
             }
         }
-
         if (nextLessonOrder == undefined) {
             while (daySchedule.lessons.length == 0) {
                 dayScheduleNext = schedule[getNextDayOfWeek(dayOfWeek)];
@@ -88,8 +102,7 @@ export class MainScreenCalculator {
                 }
             }
         }
-
-        const nextLesson = daySchedule.lessons[nextLessonOrder]; //TODO: what current lesson is last lesson?? //no lessons in array with that index
+        const nextLesson = daySchedule.lessons[nextLessonOrder];
         const nextLessonTitle = nextLesson.name;
         const timeUntilNextLesson: VhkTime = getTimeUntilSth(time, nextLesson.start_time);
         var nextLessonRoom = "";
@@ -121,11 +134,11 @@ export class MainScreenCalculator {
             lunchRoom = "\U0001F37D";
         }
 
-        if (currentLesson == null && timeUntilNextLesson.hour >= 24) {
+        if (currentLesson == null && timeUntilNextLesson.hour >= 24 && !isWeekend) {
             resultCurrent = "Nothing is happening now or any time soon. Relax!";
             resultCurrentPressed = "Chill out \U0001F60A";
-        } //if there is no lesson and it's not coming in then next 24 hours
-        else if (/*currentLesson == null &&*/ lunchResult == "Lunch is now!!!" && isRecess) {
+        }
+        else if (lunchResult == "Lunch is now!!!" && isRecess) {
             resultCurrent = "Lunch. Hurry!"
             resultCurrentPressed = lunchRoom;
         }
@@ -133,7 +146,7 @@ export class MainScreenCalculator {
             resultCurrent = "No lesson now";
             resultCurrentPressed = ""; //TODO
         }
-        else if (!isRecess) {
+        else if (!isRecess && !isWeekend) {
             resultCurrent = "Current lesson: " + currentLesson;
             resultCurrentPressed = "Time left: " + formatNumberAsTwoDigit(timeLeftTilEnd.hour) + ":" + formatNumberAsTwoDigit(timeLeftTilEnd.min);
         }
@@ -143,16 +156,14 @@ export class MainScreenCalculator {
 
         return {
             type: MainScreenType.SUCCESS,
-            current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed}, //what if sunday?? //how to print minutes if theyre smaller than 10
-            lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},//TODO what if lunch was already???
+            current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed},
+            lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},
             next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formatNumberAsTwoDigit(timeUntilNextLesson.hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),
             titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
         };
     }
 }
 
-
-//TODO
 function getTimeUntilSth(currentTime : VhkTime, timeUntilSth : VhkTime, isLunch?: boolean): VhkTime {
     const result = Object.assign({}, timeUntilSth);
     result.min = result.hour * 60 + result.min - currentTime.hour * 60 - currentTime.min;
