@@ -1,4 +1,4 @@
-import {ClassSchedule, VhkDay, VhkGroup, VhkTime} from "./ClassSchedule";
+import {ClassSchedule, TwelveRSchedule, VhkDay, VhkGroup, VhkTime} from "./ClassSchedule";
 import {DayOfWeek, getNextDayOfWeek} from "./DayOfWeek]";
 
 export class MainScreenCalculator {
@@ -20,29 +20,40 @@ export class MainScreenCalculator {
         var resultCurrentPressed;
         var isWeekend: boolean = false;
         const dayScheduleFromInput = schedule[dayOfWeek];
-        if (!dayScheduleFromInput) { //if saturday and sunday???
-            if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-                isWeekend = true;
-                var next;
-                if (schedule[DayOfWeek.MONDAY].lessons[0]) {
-                    
+        if (!dayScheduleFromInput) {
+            return {
+                type: MainScreenType.ERROR,
+                error: { title: "Invalid schedule." }
+            }
+        }
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+            isWeekend = true;
+            var next;
+            var nextRoom;
+            if (schedule["monday"]?.lessons[0] != undefined) {
+                next = schedule["monday"].lessons[0];
+                if ("places" in next.room) {
+                    nextRoom = next.room.places;
+                } else if ("place" in next.room) {
+                    nextRoom = next.room.place;
                 }
                 return {
                     type: MainScreenType.SUCCESS,
-                    current_button: { title: "Nothing is happening now or any time soon. Relax!", titleIfPressed: "Chill out \U0001F60A"},
+                    current_button: {
+                        title: "Nothing is happening now or any time soon. Relax!",
+                        titleIfPressed: "Chill out \U0001F60A"
+                    },
                     lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},
-                    next_button: {title: "Next lesson: " + next?.name + ". The lesson starts in: " + formatNumberAsTwoDigit(getTimeUntilSth(time, next?.start_time, false).hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),
-                        titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
+                    next_button: {
+                        title: "Next lesson: " + next.name + ". The lesson starts in: " + formatNumberAsTwoDigit(getTimeUntilSth(time, next.start_time, false).hour) + ":" + formatNumberAsTwoDigit(getTimeUntilSth(time, next.start_time, false).min),
+                        titleIfPressed: "Room: " + nextRoom
+                    } //TODO based on group
                 };
             }
-            else {
-                return {
-                    type: MainScreenType.ERROR,
-                    error: {title: "Undefined schedule for day: " + dayOfWeek}
-                }
-            }
         }
+
         var daySchedule: VhkDay = dayScheduleFromInput;
+        //if (da)
 
         var currentLesson = "";
         var timeLeftTilEnd: VhkTime = {

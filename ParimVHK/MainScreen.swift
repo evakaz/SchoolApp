@@ -11,6 +11,7 @@ struct MainScreen: View {
     //@State private var isWeekday = false
     @State var results = [MainScreenStruct]()
     
+    
     func loadData() {
         guard let url = URL(string: "http://localhost:3000/getMainScreen")
         else {
@@ -28,6 +29,7 @@ struct MainScreen: View {
             if let data = data {
                 if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
                     DispatchQueue.main.async {
+                    //DispatchQueue.global().async {
                         self.results = response
                     }
                     return
@@ -42,11 +44,7 @@ struct MainScreen: View {
             LinearGradient(colors: [.pink, .orange], //if all lessons are finished or a weekend than fun color
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
-            //            VStack {
-            //                List(results) { result in
-            //                    /*@START_MENU_TOKEN@*/Text(result.type)/*@END_MENU_TOKEN@*/
-            //                }
-            //            }.onAppear(perform: loadData)
+
             VStack {
                 VStack {
                     ProgressView(value: 2, total: 5) //value and total depends on the amount of lessons and lessons done
@@ -76,8 +74,11 @@ struct MainScreen: View {
                                 HStack{
                                     Image(systemName: "brain.head.profile")
                                         .font(.largeTitle)
-                                    Text("Currently: {MATH}")
-                                        .font(.subheadline  )
+                                    List(results) { result in
+                                        HStack {
+                                            Text("\(result.type)")
+                                            .font(.subheadline)}
+                                    }
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .padding()
@@ -91,7 +92,9 @@ struct MainScreen: View {
                             VStack() {
                                 Text("Ends in {0} hours {20} minutes {4} seconds")
                                 
-                            }                    }
+                                
+                            }
+                        }
                     }
                     HStack {
                         VStack(alignment: .center) {

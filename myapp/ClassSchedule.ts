@@ -411,6 +411,70 @@ export const TwelveRSchedule: ClassSchedule = {
             }
         }
     },
+    [DayOfWeek.SATURDAY]: {
+        lessons: [{
+            name: LessonType.NADALAVAHETUS,
+            order: 0,
+            start_time: {
+                hour: 0,
+                min: 0
+            },
+            end_time: {
+                hour: 0,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: ""
+            }
+        }],
+        lunch: {
+            start_time: {
+                hour: 0,
+                min: 0
+            },
+            end_time: {
+                hour: 0,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: ""
+            }
+        }
+    },
+    [DayOfWeek.SUNDAY]: {
+        lessons: [{
+            name: LessonType.NADALAVAHETUS,
+            order: 0,
+            start_time: {
+                hour: 0,
+                min: 0
+            },
+            end_time: {
+                hour: 0,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: ""
+            }
+        }],
+        lunch: {
+            start_time: {
+                hour: 0,
+                min: 0
+            },
+            end_time: {
+                hour: 0,
+                min: 0
+            },
+            room: {
+                type: RoomType.DEFAULT,
+                place: ""
+            }
+        }
+    }
 }
 
 console.log(JSON.stringify(TwelveRSchedule));

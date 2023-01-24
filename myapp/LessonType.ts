@@ -11,5 +11,6 @@ export enum LessonType {
     KIRJANDUS = "kirjandus",
     FYYSIKA = "füüsika",
     FYYSIKA_YLESANDED = "füüsika ülesanded",
-    KUNSTIAJALUGU = "kunstiajalugu"
+    KUNSTIAJALUGU = "kunstiajalugu",
+    NADALAVAHETUS = "nadalavahetus"
 }
