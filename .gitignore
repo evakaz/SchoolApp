@@ -1,4 +1,21 @@
-myapp/coverage/
-myapp/node_modules
-
+myapp/coverage/**
+myapp/node_modules/**
+myapp/.idea/**
+myapp/bin/**
+myapp/stylesheets/**
+ClassSchedule.js
+ClassSchedule.js.map
+DayOfWeek].js
+DayOfWeek].js.map
+LessonType.js
+LessonType.js.map
+MainScreenCalculator.test.js
+MainScreenCalculator.test.js.map
+app.js
+app.js.map
+mainScreenCalculator.js
+mainScreenCalculator.js.map
+sandbox.js
+sandbox.ts
+sandbox.js.map
 
