@@ -16,5 +16,6 @@ var LessonType;
     LessonType["FYYSIKA"] = "f\u00FC\u00FCsika";
     LessonType["FYYSIKA_YLESANDED"] = "f\u00FC\u00FCsika \u00FClesanded";
     LessonType["KUNSTIAJALUGU"] = "kunstiajalugu";
+    LessonType["NADALAVAHETUS"] = "nadalavahetus";
 })(LessonType = exports.LessonType || (exports.LessonType = {}));
 //# sourceMappingURL=LessonType.js.map

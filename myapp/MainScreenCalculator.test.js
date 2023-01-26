@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mainScreenCalculator_1 = require("./mainScreenCalculator");
 const ClassSchedule_1 = require("./ClassSchedule");
-const DayOfWeek_1 = require("./DayOfWeek]");
+const DayOfWeek_1 = require("./DayOfWeek");
 describe('Input validation', () => {
     test('test negative hour', () => {
         const calc = new mainScreenCalculator_1.MainScreenCalculator();
@@ -28,7 +28,10 @@ describe('MainScreen', () => {
             current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:20" },
             lunch_button: { title: "Lunch in: 02:05", titleIfPressed: "vene suur söögisaal" },
             next_button: { title: "Next lesson: muusikaajalugu. The lesson starts in: 00:35",
-                titleIfPressed: "Room: AUD" } });
+                titleIfPressed: "Room: AUD" },
+            total_amount_of_lessons: 3,
+            current_amount_of_lessons: 1
+        });
     });
     test('test get main screen the same start hour', () => {
         const calc2 = new mainScreenCalculator_1.MainScreenCalculator(); // 10: 30 1:1 //11:45 11
@@ -76,6 +79,14 @@ describe('MainScreen', () => {
             lunch_button: { title: "Lunch is over.", titleIfPressed: "\U0001F37D" },
             next_button: { title: "Next lesson: ajalugu. The lesson starts in: 00:05",
                 titleIfPressed: "Room: V213" } });
+    });
+    test("main screen weekend", () => {
+        const c = new mainScreenCalculator_1.MainScreenCalculator();
+        const r = c.getMainScreen(ClassSchedule_1.TwelveRSchedule, DayOfWeek_1.DayOfWeek.SATURDAY, { hour: 9, min: 0 }, {});
+        expect(r).toEqual({ type: mainScreenCalculator_1.MainScreenType.SUCCESS,
+            current_button: { title: "Nothing is happening now or any time soon. Relax!", titleIfPressed: "Chill out \U0001F60A" },
+            next_button: { title: "Next lesson: matemaatika. The lesson starts in: ", titleIfPresssed: "" }
+        });
     });
 });
 describe("Lunch Tests", () => {

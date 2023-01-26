@@ -10,8 +10,6 @@ import SwiftUI
 struct MainScreen: View {
     //@State private var isWeekday = false
     @State var results = [MainScreenStruct]()
-    
-    
     func loadData() {
         guard let url = URL(string: "http://localhost:3000/getMainScreen")
         else {
@@ -37,7 +35,8 @@ struct MainScreen: View {
             }
         }.resume()
     }
-    
+    var resultName: String = ""
+
     var body: some View {
         //var totalAmountOfLessons : Int = 3
         ZStack{
@@ -74,11 +73,13 @@ struct MainScreen: View {
                                 HStack{
                                     Image(systemName: "brain.head.profile")
                                         .font(.largeTitle)
-                                    List(results) { result in
+                                    Text(self.results.current_button.title)
+                                    //Text("\(results)")
+                                   /* List(results) { result in
                                         HStack {
                                             Text("\(result.type)")
                                             .font(.subheadline)}
-                                    }
+                                    }.onAppear(perform: loadData)*/
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .padding()
@@ -145,7 +146,7 @@ struct MainScreen: View {
                     
                 }
             }
-        }.onAppear(perform: loadData)
+        }//.onAppear(perform: loadData)
     }
 }
 

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const ClassSchedule_1 = require("./ClassSchedule");
 const mainScreenCalculator_1 = require("./mainScreenCalculator");
-const DayOfWeek_1 = require("./DayOfWeek]");
+const DayOfWeek_1 = require("./DayOfWeek");
 const port = 3000;
 const app = express();
 app.use(express.json());

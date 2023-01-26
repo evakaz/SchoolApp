@@ -12,7 +12,7 @@
       <line num="49" count="2" type="stmt"/>
       <line num="191" count="2" type="stmt"/>
     </file>
-    <file name="DayOfWeek].ts" path="/Users/evakazakovskaia/Documents/ParimVHK/myapp/DayOfWeek].ts">
+    <file name="DayOfWeek.ts" path="/Users/evakazakovskaia/Documents/ParimVHK/myapp/DayOfWeek.ts">
       <metrics statements="28" coveredstatements="12" conditionals="18" coveredconditionals="3" methods="3" coveredmethods="2"/>
       <line num="2" count="2" type="stmt"/>
       <line num="3" count="0" type="cond" truecount="0" falsecount="8"/>

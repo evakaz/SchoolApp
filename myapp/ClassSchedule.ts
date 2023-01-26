@@ -1,5 +1,5 @@
 import {LessonType} from "./LessonType";
-import {DayOfWeek} from "./DayOfWeek]";
+import {DayOfWeek} from "./DayOfWeek";
 
 export interface VhkDay {
     lessons: Lesson[];
@@ -477,4 +477,4 @@ export const TwelveRSchedule: ClassSchedule = {
     }
 }
 
-console.log(JSON.stringify(TwelveRSchedule));
+//console.log(JSON.stringify(TwelveRSchedule));

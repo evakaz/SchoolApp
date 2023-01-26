@@ -1,7 +1,7 @@
 const express = require('express');
 import {TwelveRSchedule, VhkGroup, VhkTime} from "./ClassSchedule";
 import {MainScreenCalculator} from "./mainScreenCalculator";
-import {DayOfWeek, getDayOfWeek} from "./DayOfWeek]";
+import {DayOfWeek, getDayOfWeek} from "./DayOfWeek";
 
 const port = 3000;
 const app = express();

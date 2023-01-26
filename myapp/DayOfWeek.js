@@ -40,4 +40,4 @@ var DayOfWeek;
     DayOfWeek["SATURDAY"] = "saturday";
     DayOfWeek["SUNDAY"] = "sunday";
 })(DayOfWeek = exports.DayOfWeek || (exports.DayOfWeek = {}));
-//# sourceMappingURL=DayOfWeek%5D.js.map
+//# sourceMappingURL=DayOfWeek.js.map

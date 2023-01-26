@@ -1,6 +1,6 @@
 import {MainScreenCalculator, MainScreenType} from "./mainScreenCalculator";
 import {TwelveRSchedule} from "./ClassSchedule";
-import {DayOfWeek} from "./DayOfWeek]";
+import {DayOfWeek} from "./DayOfWeek";
 
 describe('Input validation', () => {
     test('test negative hour', () => {
@@ -31,7 +31,10 @@ describe('MainScreen', () => {
             current_button: { title: "Current lesson: matemaatika", titleIfPressed: "Time left: 00:20"},
             lunch_button: {title: "Lunch in: 02:05", titleIfPressed: "vene suur söögisaal"},
             next_button: {title: "Next lesson: muusikaajalugu. The lesson starts in: 00:35",
-                titleIfPressed: "Room: AUD"}})
+                titleIfPressed: "Room: AUD"},
+            total_amount_of_lessons: 3,
+            current_amount_of_lessons: 1
+        })
     });
     test('test get main screen the same start hour', () => {
         const calc2 = new MainScreenCalculator(); // 10: 30 1:1 //11:45 11

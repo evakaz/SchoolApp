@@ -1,5 +1,5 @@
 import {ClassSchedule, TwelveRSchedule, VhkDay, VhkGroup, VhkTime} from "./ClassSchedule";
-import {DayOfWeek, getNextDayOfWeek} from "./DayOfWeek]";
+import {DayOfWeek, getNextDayOfWeek} from "./DayOfWeek";
 
 export class MainScreenCalculator {
 
@@ -20,6 +20,7 @@ export class MainScreenCalculator {
         var resultCurrentPressed;
         var isWeekend: boolean = false;
         const dayScheduleFromInput = schedule[dayOfWeek];
+        var resultCurrentAmountOfLessons: number = 0;
         if (!dayScheduleFromInput) {
             return {
                 type: MainScreenType.ERROR,
@@ -72,6 +73,7 @@ export class MainScreenCalculator {
                 currentLesson = daySchedule.lessons[i].name;
                 timeLeftTilEnd = getTimeUntilSth(time, lessonEnd);
                 nextLessonOrder = daySchedule.lessons[i].order + 1;
+                resultCurrentAmountOfLessons = nextLessonOrder; //lessons order starts with a zero, so current amount of lessons would be currentLessonsOrder + 1
                 break;
             }
         }
@@ -87,8 +89,9 @@ export class MainScreenCalculator {
                     (daySchedule.lessons[i].order < minNextLessonOrder)) {
                     minNextLessonOrder = daySchedule.lessons[i].order;
                 }
+                nextLessonOrder = minNextLessonOrder;
+
             }
-            nextLessonOrder = minNextLessonOrder;
             isRecess = true;
         }
         //check if the nextlesson doesnt exist by checking if current lesson is the last element in the array
@@ -152,6 +155,7 @@ export class MainScreenCalculator {
         else if (lunchResult == "Lunch is now!!!" && isRecess) {
             resultCurrent = "Lunch. Hurry!"
             resultCurrentPressed = lunchRoom;
+            resultCurrentAmountOfLessons = nextLessonOrder;
         }
         else if (currentLesson == null) {
             resultCurrent = "No lesson now";
@@ -160,6 +164,7 @@ export class MainScreenCalculator {
         else if (!isRecess && !isWeekend) {
             resultCurrent = "Current lesson: " + currentLesson;
             resultCurrentPressed = "Time left: " + formatNumberAsTwoDigit(timeLeftTilEnd.hour) + ":" + formatNumberAsTwoDigit(timeLeftTilEnd.min);
+            resultCurrentAmountOfLessons = nextLessonOrder;
         }
         else {
             console.log("Huh?")
@@ -170,7 +175,9 @@ export class MainScreenCalculator {
             current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed},
             lunch_button: {title: "" + lunchResult, titleIfPressed: "" + lunchRoom},
             next_button: {title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formatNumberAsTwoDigit(timeUntilNextLesson.hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),
-            titleIfPressed: "Room: " + nextLessonRoom} //TODO based on group
+            titleIfPressed: "Room: " + nextLessonRoom}, //TODO based on group
+            total_amount_of_lessons: numOfLessons,
+            current_amount_of_lessons: resultCurrentAmountOfLessons
         };
     }
 }
@@ -210,6 +217,8 @@ export interface MainScreenSuccess {
     current_button: PrimaryButton;
     lunch_button?: PrimaryButton;
     next_button: PrimaryButton;
+    total_amount_of_lessons?: number;
+    current_amount_of_lessons?: number;
 }
 
 export interface PrimaryButton {
