@@ -15,7 +15,7 @@ class ButtonMain : Decodable {
         case title = "title"
         case titleIfPressed = "titleIfPressed"
     }
-    
+
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.title = try container.decode(String.self, forKey: .title)
@@ -23,7 +23,7 @@ class ButtonMain : Decodable {
     }
 }
 
-struct MainScreenStruct: Codable, Identifiable {
+struct MainScreenStruct: Decodable, Identifiable { //Identifiable
     let id: UUID
     let type: String
     let current_button: ButtonMain

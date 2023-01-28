@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
-
-struct MainScreen: View {
-    //@State private var isWeekday = false
-    @State var results = [MainScreenStruct]()
+class MainScreenVM: ObservableObject {
+    @Published var datas = [MainScreenStruct]()
+    
+//    init() {
+//        loadData()
+//    }
     func loadData() {
         guard let url = URL(string: "http://localhost:3000/getMainScreen")
         else {
@@ -28,14 +30,76 @@ struct MainScreen: View {
                 if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
                     DispatchQueue.main.async {
                     //DispatchQueue.global().async {
-                        self.results = response
+                        self.datas = response
                     }
                     return
                 }
             }
         }.resume()
     }
-    var resultName: String = ""
+}
+    
+//    class PrimeBookVM: ObservableObject {
+//        @Published var datas = [Datum]()
+//
+//        init() {
+//            getData()
+//        }
+//
+//        func getData() {
+//            guard let url = URL(string: "https://alibrary.in/api/book-search?is_prime") else { return }
+//            URLSession.shared.dataTask(with: url) { (data, _, _) in
+//                if let data = data {
+//                    do {
+//                        let results = try JSONDecoder().decode(ApiResponse.self, from: data)
+//                        DispatchQueue.main.async {
+//                            self.datas = results.bookDetails.data
+//                        }
+//                    }
+//                    catch {
+//                        print(error)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
+//
+//    struct PrimeBooksView: View{
+//        @StateObject var list = PrimeBookVM()
+//
+
+
+struct MainScreen: View {
+    @StateObject var list = MainScreenVM()
+    //@State private var isWeekday = false
+    //@State var results = [MainScreenStruct]()
+//    func loadData() {
+//        @Published var datas = [MainScreenStruct]()
+//            guard let url = URL(string: "http://localhost:3000/getMainScreen")
+//            else {
+//                print("Invalid URL")
+//                return
+//            }
+//            let json: [String: Any] = ["grade": "12R",
+//                                       "group": ["matemaatika": "G1",
+//                                                 "eesti keel": "G2"]]
+//            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//            var request = URLRequest(url: url)
+//            request.httpMethod = "POST"
+//            request.httpBody = jsonData
+//            URLSession.shared.dataTask(with: request) { data, response, error in
+//                if let data = data {
+//                    if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
+//                        DispatchQueue.main.async {
+//                        //DispatchQueue.global().async {
+//                            self.datas = response
+//                        }
+//                        return
+//                    }
+//                }
+//            }.resume()
+//        }
+    //var resultName: String = ""
 
     var body: some View {
         //var totalAmountOfLessons : Int = 3
@@ -70,25 +134,39 @@ struct MainScreen: View {
                             Button(action: {
                                 print("VENE SUUR SÖÖGISAAL")
                             }) {
-                                HStack{
-                                    Image(systemName: "brain.head.profile")
-                                        .font(.largeTitle)
-                                    Text(self.results.current_button.title)
-                                    //Text("\(results)")
-                                   /* List(results) { result in
-                                        HStack {
-                                            Text("\(result.type)")
-                                            .font(.subheadline)}
-                                    }.onAppear(perform: loadData)*/
+                                ForEach(list.datas) { item in
+                                    
+                                    HStack{
+                                        
+                                        //ForEach(results.datas, id: \.self){ result in
+                                        Image(systemName: "brain.head.profile")
+                                            .font(.largeTitle)
+                                        Text(item.current_button.title)
+                                        //Text(results)
+                                        //Text("\(results)")
+                                        /* List(results) { result in
+                                         HStack {
+                                         Text("\(result.type)")
+                                         .font(.subheadline)}
+                                         }.onAppear(perform: loadData)*/
+                                    }
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .background(LinearGradient(colors: [.indigo, .accentColor],
+                                                               startPoint: .bottomTrailing, endPoint: .leading))
+                                    .cornerRadius(10)
+                                    .shadow(color: .gray, radius: 5.0)
+                                    .padding()
                                 }
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .padding()
-                                .foregroundColor(.white)
-                                .background(LinearGradient(colors: [.indigo, .accentColor],
-                                                           startPoint: .bottomTrailing, endPoint: .leading))
-                                .cornerRadius(10)
-                                .shadow(color: .gray, radius: 5.0)
-                                .padding()
+//                                .frame(minWidth: 0, maxWidth: .infinity)
+//                                .padding()
+//                                .foregroundColor(.white)
+//                                .background(LinearGradient(colors: [.indigo, .accentColor],
+//                                                           startPoint: .bottomTrailing, endPoint: .leading))
+//                                .cornerRadius(10)
+//                                .shadow(color: .gray, radius: 5.0)
+//                                .padding()
                             }
                             VStack() {
                                 Text("Ends in {0} hours {20} minutes {4} seconds")
@@ -146,8 +224,11 @@ struct MainScreen: View {
                     
                 }
             }
-        }//.onAppear(perform: loadData)
-    }
+        }
+    }.onAppear {
+        list.loadData()
+     }
+
 }
 
 
