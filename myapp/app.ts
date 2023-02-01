@@ -34,6 +34,7 @@ app.post('/getMainScreen', (req: any, res: any) => {
     let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, request.group);
 
     res.json(resp);
+    console.log("The data was fetched")
 })
 
 app.get('/getForSelectGrade', (req: any, res: any) => {
@@ -41,7 +42,7 @@ app.get('/getForSelectGrade', (req: any, res: any) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log('Example app listening on port ${port}')
 })
 
 export interface MainScreenRequest {

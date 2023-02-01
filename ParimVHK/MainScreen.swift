@@ -12,6 +12,7 @@ class MainScreenVM: ObservableObject {
         loadData()
     }
     func loadData() {
+        print("Fetching started")
         guard let url = URL(string: "http://localhost:3000/getMainScreen")
         else {
             print("Invalid URL")
@@ -19,20 +20,25 @@ class MainScreenVM: ObservableObject {
         }
         let json: [String: Any] = ["grade": "12R",
                                    "group": ["matemaatika": "G1",
-                                             "eesti keel": "G2"]]
+                                             "eesti keel": "G2"]] //: []
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = jsonData
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let data = data {
-                if let response = try? JSONDecoder().decode([MainScreenStruct].self, from: data) {
+                do {
+                    let response = try JSONDecoder().decode([MainScreenStruct].self, from: data)
                     DispatchQueue.main.async {
-                    //DispatchQueue.global().async {
+                        //DispatchQueue.global().async {
                         self.datas = response
                     }
-                    return
+                } catch {
+                    //self.datas = "error"
+                    print("Error parsing JSON: \(error.localizedDescription)")
                 }
+                //return
+                
             }
         }.resume()
     }
@@ -145,8 +151,8 @@ struct MainScreen: View{
                 }
             }
         }
-    }//.onAppear{list.loadData()}
-}//.onAppear{list.loadData()}
+    }
+}
 
 
 struct TimeLeft_Previews: PreviewProvider {

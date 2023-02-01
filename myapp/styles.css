@@ -1,0 +1,10 @@
+body {
+    background-color: powderblue;
+}
+h1 {
+    color: red;
+    border: 2px solid yellow;
+    padding: 30px;
+    font-family: fantasy;
+    font-size: 300%;
+}
