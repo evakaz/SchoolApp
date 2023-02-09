@@ -4,8 +4,39 @@
 //
 //  Created by Eva Kazakovskaia on 11.01.2023.
 //
-
+//папа, [7. Feb 2023 at 22:22:17]:
+//import Foundation
+//
+//struct Person: Codable {
+//    var grade: String
+//    var group: [String : String]
+//    var arr: [String]?
+//}
+//
+//var p = Person(grade: "Roxy", group: ["math": "C1", "eesti": "C2"])
+//"group": {
+//        "matemaatika": "G1",
+//        "eesti keel": "G2"
+//    }
+//
+//let jsonData = try JSONEncoder().encode(p)
+//let jsonString = String(data: jsonData, encoding: .utf8)!
+//
+//print(jsonString)
+//
+//{"grade":"Roxy","group":{"math":"C1","eesti":"C2"}}
+//Program ended with exit code: 0
 import SwiftUI
+
+struct JsonVhk: Codable {
+    var grade: String
+    var group: [String : String]
+}
+
+//var p = JsonVhk(grade: "12R", group: ["matemaatika": "G1", "eesti keel": "G2"])
+//let jsonData = try JSONEncoder().encode(p)
+//let jsonString = String(data: jsonData, encoding: .utf8)!
+
 class MainScreenVM: ObservableObject {
     @Published var datas = [MainScreenStruct]()
     init() {
@@ -18,27 +49,25 @@ class MainScreenVM: ObservableObject {
             print("Invalid URL")
             return
         }
-        let json: [String: Any] = ["grade": "12R",
-                                   "group": ["matemaatika": "G1",
-                                             "eesti keel": "G2"]] //: []
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        var p = JsonVhk(grade: "12R", group: ["matemaatika": "G1", "eesti keel": "G2"])
+        
+        let jsonData = try! JSONEncoder().encode(p)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let data = data {
                 do {
-                    let response = try JSONDecoder().decode([MainScreenStruct].self, from: data)
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode([MainScreenStruct].self, from: data)
                     DispatchQueue.main.async {
-                        //DispatchQueue.global().async {
                         self.datas = response
                     }
                 } catch {
-                    //self.datas = "error"
                     print("Error parsing JSON: \(error.localizedDescription)")
                 }
-                //return
-                
             }
         }.resume()
     }
@@ -78,21 +107,21 @@ struct MainScreen: View{
                             Button(action: {
                                 print("VENE SUUR SÖÖGISAAL")
                             }) {
-                                ForEach(list.datas) { item in
-                                    HStack{
-                                        Image(systemName: "brain.head.profile")
-                                            .font(.largeTitle)
-                                        Text(item.current_button.title)
-                                    }
-                                    .frame(minWidth: 0, maxWidth: .infinity)
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .background(LinearGradient(colors: [.indigo, .accentColor],
-                                                               startPoint: .bottomTrailing, endPoint: .leading))
-                                    .cornerRadius(10)
-                                    .shadow(color: .gray, radius: 5.0)
-                                    .padding()
-                                }
+//                                ForEach(list.datas) { item in
+//                                    HStack{
+//                                        Image(systemName: "brain.head.profile")
+//                                            .font(.largeTitle)
+//                                        Text(item.current_button.title)
+//                                    }
+//                                    .frame(minWidth: 0, maxWidth: .infinity)
+//                                    .padding()
+//                                    .foregroundColor(.white)
+//                                    .background(LinearGradient(colors: [.indigo, .accentColor],
+//                                                               startPoint: .bottomTrailing, endPoint: .leading))
+//                                    .cornerRadius(10)
+//                                    .shadow(color: .gray, radius: 5.0)
+//                                    .padding()
+//                                }
                             }
                             VStack() {
                                 Text("Ends in {0} hours {20} minutes {4} seconds")

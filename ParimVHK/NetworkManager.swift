@@ -23,14 +23,14 @@ class ButtonMain : Decodable {
     }
 }
 
-struct MainScreenStruct: Decodable, Identifiable { //Identifiable
-    let id: UUID
+struct MainScreenStruct: Decodable { //Identifiable
+//    let id: UUID
     let type: String
-    let current_button: ButtonMain
-    let lunch_button: ButtonMain
-    let next_button: ButtonMain
-    let total_amount_of_lessons: Int
-    let current_amount_of_lessons: Int
+//    let current_button: ButtonMain
+//    let lunch_button: ButtonMain
+//    let next_button: ButtonMain
+//    let total_amount_of_lessons: Int
+//    let current_amount_of_lessons: Int
     
 }
 
