@@ -37,8 +37,12 @@ struct JsonVhk: Codable {
 //let jsonData = try JSONEncoder().encode(p)
 //let jsonString = String(data: jsonData, encoding: .utf8)!
 
+struct MainScreenData {
+    var current: String
+}
+
 class MainScreenVM: ObservableObject {
-    @Published var datas = [MainScreenStruct]()
+    @Published var datas =  MainScreenData(current: "Loading")
     init() {
         loadData()
     }
@@ -60,10 +64,10 @@ class MainScreenVM: ObservableObject {
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let response = try decoder.decode([MainScreenStruct].self, from: data)
+                    let response = try decoder.decode(MainScreenStruct.self, from: data)
+                    print(response)
                     DispatchQueue.main.async {
-                        self.datas = response
+                        self.datas.current = response.current_button.title
                     }
                 } catch {
                     print("Error parsing JSON: \(error.localizedDescription)")
@@ -74,7 +78,7 @@ class MainScreenVM: ObservableObject {
 }
 
 struct MainScreen: View{
-    @StateObject var list = MainScreenVM()
+    @StateObject var data = MainScreenVM()
     var body: some View {
         ZStack{
             LinearGradient(colors: [.pink, .orange], //if all lessons are finished or a weekend than fun color
@@ -107,21 +111,19 @@ struct MainScreen: View{
                             Button(action: {
                                 print("VENE SUUR SÖÖGISAAL")
                             }) {
-//                                ForEach(list.datas) { item in
-//                                    HStack{
-//                                        Image(systemName: "brain.head.profile")
-//                                            .font(.largeTitle)
-//                                        Text(item.current_button.title)
-//                                    }
-//                                    .frame(minWidth: 0, maxWidth: .infinity)
-//                                    .padding()
-//                                    .foregroundColor(.white)
-//                                    .background(LinearGradient(colors: [.indigo, .accentColor],
-//                                                               startPoint: .bottomTrailing, endPoint: .leading))
-//                                    .cornerRadius(10)
-//                                    .shadow(color: .gray, radius: 5.0)
-//                                    .padding()
-//                                }
+                                HStack{
+                                    Image(systemName: "brain.head.profile")
+                                        .font(.largeTitle)
+                                    Text(data.datas.current)
+                                }
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(LinearGradient(colors: [.indigo, .accentColor],
+                                                           startPoint: .bottomTrailing, endPoint: .leading))
+                                .cornerRadius(10)
+                                .shadow(color: .gray, radius: 5.0)
+                                .padding()
                             }
                             VStack() {
                                 Text("Ends in {0} hours {20} minutes {4} seconds")
