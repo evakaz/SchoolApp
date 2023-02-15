@@ -13,10 +13,10 @@ class ButtonMain : Codable {
 }
 
 struct MainScreenStruct: Codable {
-    let type: String
+    var type: String
     var current_button: ButtonMain
-    let total_amount_of_lessons: Int
-    let current_amount_of_lessons: Int
+    var total_amount_of_lessons: Int
+    var current_amount_of_lessons: Int
 }
 
 
