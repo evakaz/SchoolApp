@@ -7,31 +7,16 @@
 
 import Foundation
 
-class ButtonMain : Decodable {
-    let title: String
-    let titleIfPressed: String
-    
-    enum CodingKeys: String, CodingKey {
-        case title = "title"
-        case titleIfPressed = "titleIfPressed"
-    }
-
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.title = try container.decode(String.self, forKey: .title)
-        self.titleIfPressed = try container.decode(String.self, forKey: .titleIfPressed)
-    }
+class ButtonMain : Codable {
+    var title: String
+    var titleIfPressed: String
 }
 
-struct MainScreenStruct: Decodable { //Identifiable
-//    let id: UUID
-    let type: String
-//    let current_button: ButtonMain
-//    let lunch_button: ButtonMain
-//    let next_button: ButtonMain
-//    let total_amount_of_lessons: Int
-//    let current_amount_of_lessons: Int
-    
+struct MainScreenStruct: Codable {
+    var type: String
+    var current_button: ButtonMain
+    var total_amount_of_lessons: Int
+    var current_amount_of_lessons: Int
 }
 
 
