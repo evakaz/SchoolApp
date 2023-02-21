@@ -42,6 +42,7 @@ class MainScreenCalculator {
                 }
                 return {
                     type: MainScreenType.SUCCESS,
+                    id: "8a6e0804-2bd0-4672-b79d-d97027f9071a",
                     current_button: {
                         title: "Nothing is happening now or any time soon. Relax!",
                         titleIfPressed: "Chill out \U0001F60A"
@@ -164,6 +165,7 @@ class MainScreenCalculator {
         }
         return {
             type: MainScreenType.SUCCESS,
+            id: "8a6e0804-2bd0-4672-b79d-d97027f9071a",
             current_button: { title: "" + resultCurrent, titleIfPressed: "" + resultCurrentPressed },
             lunch_button: { title: "" + lunchResult, titleIfPressed: "" + lunchRoom },
             next_button: { title: "Next lesson: " + nextLessonTitle + ". The lesson starts in: " + formatNumberAsTwoDigit(timeUntilNextLesson.hour) + ":" + formatNumberAsTwoDigit(timeUntilNextLesson.min),

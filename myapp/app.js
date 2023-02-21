@@ -30,11 +30,13 @@ app.post('/getMainScreen', (req, res) => {
     let calc = new mainScreenCalculator_1.MainScreenCalculator();
     let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, request.group);
     res.json(resp);
+    console.log(resp);
+    console.log("The data was fetched");
 });
 app.get('/getForSelectGrade', (req, res) => {
     res.json({ item: ["10", "11", "12"] });
 });
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log('Example app listening on port ${port}');
 });
 //# sourceMappingURL=app.js.map

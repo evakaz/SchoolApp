@@ -3,29 +3,7 @@
 //  ParimVHK
 //
 //  Created by Eva Kazakovskaia on 11.01.2023.
-//
-//папа, [7. Feb 2023 at 22:22:17]:
-//import Foundation
-//
-//struct Person: Codable {
-//    var grade: String
-//    var group: [String : String]
-//    var arr: [String]?
-//}
-//
-//var p = Person(grade: "Roxy", group: ["math": "C1", "eesti": "C2"])
-//"group": {
-//        "matemaatika": "G1",
-//        "eesti keel": "G2"
-//    }
-//
-//let jsonData = try JSONEncoder().encode(p)
-//let jsonString = String(data: jsonData, encoding: .utf8)!
-//
-//print(jsonString)
-//
-//{"grade":"Roxy","group":{"math":"C1","eesti":"C2"}}
-//Program ended with exit code: 0
+
 import SwiftUI
 
 struct JsonVhk: Codable {
@@ -33,16 +11,19 @@ struct JsonVhk: Codable {
     var group: [String : String]
 }
 
-//var p = JsonVhk(grade: "12R", group: ["matemaatika": "G1", "eesti keel": "G2"])
-//let jsonData = try JSONEncoder().encode(p)
-//let jsonString = String(data: jsonData, encoding: .utf8)!
-
 struct MainScreenData {
-    var current: String
+    var currentTitle: String
+    var currentIfPressed: String
+    var total_amount_of_lessons: Int
+    var current_amount_of_lessons: Int
+    var lunchTitle: String
+    var lucnRoom: String
+    var nextLessonTitle: String
+    var nextLessonIfPressed: String
 }
 
 class MainScreenVM: ObservableObject {
-    @Published var datas =  MainScreenData(current: "Loading")
+    @Published var datas =  MainScreenData(currentTitle: "Loading", currentIfPressed: "Loading", total_amount_of_lessons: 0, current_amount_of_lessons: 0, lunchTitle: "Loading", lucnRoom: "Loading", nextLessonTitle: "Loading", nextLessonIfPressed: "Loading")
     init() {
         loadData()
     }
@@ -67,7 +48,14 @@ class MainScreenVM: ObservableObject {
                     let response = try decoder.decode(MainScreenStruct.self, from: data)
                     print(response)
                     DispatchQueue.main.async {
-                        self.datas.current = response.current_button.title
+                        self.datas.currentTitle = response.current_button.title
+                        self.datas.currentIfPressed = response.current_button.titleIfPressed
+                        self.datas.total_amount_of_lessons = response.total_amount_of_lessons
+                        self.datas.current_amount_of_lessons = response.current_amount_of_lessons
+                        self.datas.lunchTitle = response.lunch_button.title
+                        self.datas.lucnRoom = response.lunch_button.titleIfPressed
+                        self.datas.nextLessonTitle = response.next_button.title
+                        self.datas.nextLessonIfPressed = response.next_button.titleIfPressed
                     }
                 } catch {
                     print("Error parsing JSON: \(error.localizedDescription)")
@@ -87,20 +75,20 @@ struct MainScreen: View{
             
             VStack {
                 VStack {
-                    ProgressView(value: 2, total: 5) //value and total depends on the amount of lessons and lessons done
+                    ProgressView(value: Float(data.datas.current_amount_of_lessons), total: Float(data.datas.total_amount_of_lessons)) //value and total depends on the amount of lessons and lessons done
                         .padding()
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Lessons done")
                                 .font(.system(size: 20))
-                            Label("3", systemImage: "house.fill") //instead of actual amount "300"
+                            Label(String(data.datas.current_amount_of_lessons), systemImage: "house.fill") //instead of actual amount "300"
                         }
                         .padding()
                         Spacer()
                         VStack(alignment: .trailing) {
                             Text("Lessons left")
                                 .font(.system(size: 20))
-                            Label("2", systemImage: "flag.checkered.2.crossed")
+                            Label(String(data.datas.total_amount_of_lessons), systemImage: "flag.checkered.2.crossed")
                         }
                         .padding()
                     }
@@ -114,7 +102,7 @@ struct MainScreen: View{
                                 HStack{
                                     Image(systemName: "brain.head.profile")
                                         .font(.largeTitle)
-                                    Text(data.datas.current)
+                                    Text(data.datas.currentTitle)
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .padding()
@@ -126,7 +114,7 @@ struct MainScreen: View{
                                 .padding()
                             }
                             VStack() {
-                                Text("Ends in {0} hours {20} minutes {4} seconds")
+                                Text(data.datas.currentIfPressed)
                                 
                                 
                             }
@@ -140,7 +128,7 @@ struct MainScreen: View{
                                 HStack{
                                     Image(systemName: "books.vertical.fill")
                                         .font(.largeTitle)
-                                    Text("Next lesson is {English}")
+                                    Text(data.datas.nextLessonTitle)
                                         .font(.subheadline  )
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -152,7 +140,7 @@ struct MainScreen: View{
                                 .shadow(color: .gray, radius: 5.0)
                                 .padding()
                             }
-                            Text("The lesson starts at {14:50}")
+                            Text(data.datas.nextLessonIfPressed)
                         }
                     }
                     HStack {
@@ -163,7 +151,7 @@ struct MainScreen: View{
                                 HStack{
                                     Image(systemName: "fork.knife.circle.fill")
                                         .font(.largeTitle)
-                                    Text("Lunch is in 1 hour 15 minutes 30 seconds")
+                                    Text(data.datas.lunchTitle)
                                         .font(.subheadline  )
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -175,7 +163,9 @@ struct MainScreen: View{
                                 .shadow(color: .gray, radius: 5.0)
                                 .padding()
                             }
+                            Text(String(data.datas.lucnRoom))
                         }
+                        
                     }
                     Spacer()
                     

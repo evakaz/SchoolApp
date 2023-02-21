@@ -34,6 +34,7 @@ app.post('/getMainScreen', (req: any, res: any) => {
     let resp = calc.getMainScreen(schedule, dayOfWeek, currentDate, request.group);
 
     res.json(resp);
+    console.log(resp);
     console.log("The data was fetched")
 })
 

@@ -17,6 +17,8 @@ struct MainScreenStruct: Codable {
     var current_button: ButtonMain
     var total_amount_of_lessons: Int
     var current_amount_of_lessons: Int
+    var lunch_button: ButtonMain
+    var next_button: ButtonMain
 }
 
 
